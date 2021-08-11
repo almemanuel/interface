@@ -15,12 +15,12 @@ Existem algumas detalhes simples, como:
 ### Gerar dados artificialmente
 
 #### Organização dos dados
-- alguma variável composta, como lista ou dicionário
-- levar para algum arquivo externo
+- Antes de armazenar, precisará ser definida uma estrutura pra não perder nada
+- Todos esses dados precisarão ser levados para uma planilha e, para isso, [esta biblioteca](https://docs.python.org/pt-br/3.7/library/csv.html) pode ajudar
 
 #### Nome
 - listar nomes manualmente
-- utilizar alguma API web
+- utilizar alguma [API web](https://pypi.org/project/names/)
 
 #### E-mail
 - tornar os nomes em lowercase
@@ -57,7 +57,9 @@ Existem algumas detalhes simples, como:
 - sortear a subárea de acordo com a área
 
 #### Defeitos
-?
+- gerar manualmente
+- gerar via [API](https://pypi.org/project/lorem/)
 
 #### Qualidades
-?
+- gerar manualmente
+- gerar via [API](https://pypi.org/project/lorem/)
