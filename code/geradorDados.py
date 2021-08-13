@@ -125,11 +125,11 @@ class Pessoa:
                 choice(['projetos computacionais', 'inteligência artificial', 'computação'])}]
 
         curso = choice(cursos_campus)
-        campus = str(curso.values())[14:-3].capitalize()
-        curso = str(curso.keys())[12:-3].capitalize()
+        campus = str(curso.values())[14:-3].upper()
+        curso = str(curso.keys())[12:-3].upper()
         area = choice(area_subarea)
-        subarea = str(area.values())[14:-3].capitalize()
-        area = str(area.keys())[12:-3].capitalize()
+        subarea = str(area.values())[14:-3].upper()
+        area = str(area.keys())[12:-3].upper()
 
         return [Pessoa(curso, campus, area, subarea) for i in range(quantidade)]
 
