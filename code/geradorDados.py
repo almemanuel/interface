@@ -39,7 +39,7 @@ class Pessoa:
 
         Returns:
             list: lista com os dados gerados para os candidatos
-       """
+        """
         cursos_campus = [{'administração':
                 choice(['curitiba', 'pato branco'])},
             {'agronomia':
@@ -150,13 +150,13 @@ class Pessoa:
 
 
     @staticmethod
-    def mostrar(lista):
-        """exibe os dados dos candidatos
+    def salvar(lista):
+        """salva os dados dos candidatos
 
         Args:
             lista (list): dados gerados para os candidatos
         """
-        print([str(candidato) for candidato in lista])
+        return [str(candidato) for candidato in lista]
 
 
     def __str__(self):
@@ -169,4 +169,5 @@ class Pessoa:
 
 
 lista = Pessoa.gerar(randrange(1, 10))
-Pessoa.mostrar(lista)
+string = Pessoa.salvar(lista)
+print(string)
