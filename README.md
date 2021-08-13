@@ -37,6 +37,9 @@ Existem algumas detalhes simples, como:
 - gerar um inteiro de 7 digitos superior a 1000000
 - garantir que não exista repetição de RA entre candidatos
 
+#### Período
+- sortear um valor entre [1, 10]
+
 #### Campus
 - criar uma lista com todos os campus, para que este seja selecionado aleatoriamente
 
@@ -44,13 +47,9 @@ Existem algumas detalhes simples, como:
 - em cada campus, criar uma lista com os cursos ofertados
 - sortear o curso de acordo com o campus
 
-#### Período
-- sortear um valor entre [1, 10]
-
 #### Área
 - em cada curso, criar uma variavel composta com as áreas de atuação dentro da Orion
 - sortear a área de acordo com o curso
-> PS: antes, checar se existe este tipo de restrição para atuação ou se é de livre escolha independente do curso
 
 #### Subárea
 - em cada área, criar uma variável composta com as subáreas
