@@ -1,27 +1,18 @@
-from names import get_full_name as name
-from lorem import paragraph
-from random import randrange, choice
+from random import choice
 
-class Pessoa:
-    def __init__(self, info_academica = [], info_orion = []):
-        self.nome = name()
-        self.email = self.nome.replace(" ", "").lower() + '@alunos.utfpr.edu.br'
-        self.whatsapp = f'+55 {randrange(10, 99)} {90000 + randrange(0, 9999)}-{randrange(0, 9999):4}'
-        self.ra = f'{randrange(0, 9999999):7}'
-        self.curso = choice(info_academica)
-        self.periodo = randrange(1, 10)
-        self.campus = str(self.curso.values())[14:-3].upper()
-        self.curso = str(self.curso.keys())[12:-3].upper()
-        self.area = choice(info_orion)
-        self.subarea = str(self.area.values())[14:-3].upper()
-        self.area = str(self.area.keys())[12:-3].upper()
-        self.qualidades = paragraph()
-        self.defeitos = paragraph()
+area_subarea = [{'administrativo':
+                choice(['operações administrativas', 'parcerias', 'comunicação', 'financeiro'])},
+            {'aviônica':
+                choice(['projetos aviônicos', 'acionamento', 'controle', 'energia', 'telemetria', 'aviônica', 'aviônica para foguetes'])},
+            {'mecânica':
+                choice(['projetos mecânicos', 'dinâmica de voo', 'propulsão', 'qualidade', 'estrutura', 'dinâmica de voo', 'simulação'])},
+            {'pesquisa e extensão':
+                choice(['pesquisa e extensão', 'extensão', 'pesquisa científica'])},
+            {'computação':
+            choice(['projetos computacionais', 'inteligência artificial', 'computação'])}]
 
-
-    @staticmethod
-    def gerar(quantidade = 1):
-        cursos_campus = [{'administração':
+def selecao1(cursos_campus):
+    cursos_campus = [{'administração':
                 choice(['curitiba', 'pato branco'])},
             {'agronomia':
                 choice(['dois vizinhos', 'pato branco', 'santa helena'])},
@@ -116,28 +107,8 @@ class Pessoa:
             {'zootecnia':
                 'dois vizinhos'}]
 
-        area_subarea = [{'administrativo':
-                choice(['operações administrativas', 'parcerias', 'comunicação', 'financeiro'])},
-            {'aviônica':
-                choice(['projetos aviônicos', 'acionamento', 'controle', 'energia', 'telemetria', 'aviônica', 'aviônica para foguetes'])},
-            {'mecânica':
-                choice(['projetos mecânicos', 'dinâmica de voo', 'propulsão', 'qualidade', 'estrutura', 'dinâmica de voo', 'simulação'])},
-            {'pesquisa e extensão':
-                choice(['pesquisa e extensão', 'extensão', 'pesquisa científica'])},
-            {'computação':
-                choice(['projetos computacionais', 'inteligência artificial', 'computação'])}]
-
-        return [Pessoa(cursos_campus, area_subarea) for i in range(quantidade)]
+    dados = choice(cursos_campus)
+    return f"curso={str(dados.values())[14:-3].upper()}, campus={str(dados.keys())[12:-3].upper()}"
 
 
-    @staticmethod
-    def mostrar(lista):
-        print([str(candidato) for candidato in lista])
-
-
-    def __str__(self):
-        return f"[nome={self.nome}, email={self.email}, whatsapp={self.whatsapp}, ra={self.ra}, curso={self.curso}, periodo={self.periodo}, campus={self.campus}, area={self.area}, subarea={self.subarea}, qualidades={self.qualidades}, defeitos={self.defeitos}]"
-
-
-lista = Pessoa.gerar(randrange(1, 10))
-Pessoa.mostrar(lista)
+print(str(selecao1))
