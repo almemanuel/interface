@@ -3,7 +3,18 @@ from lorem import paragraph
 from random import randrange, choice
 
 class Pessoa:
+    """
+    Classe contendo dados articiais para simular a interface de processo seletivo
+    """
     def __init__(self, info_academica = [], info_orion = []):
+        """Construtores da classe
+        Aqui também as strings são devidamente formadas para o padrão correto
+
+        Args:
+            info_academica (list, opcional): lista com os cursos e os campus onde são ofertados.
+            info_orion (list, opcional): lista com as áreas e suas respectivas subáreas.
+
+        """
         self.nome = name()
         self.email = self.nome.replace(" ", "").lower() + '@alunos.utfpr.edu.br'
         self.whatsapp = f'+55 {randrange(10, 99)} {90000 + randrange(0, 9999)}-{randrange(0, 9999):4}'
@@ -21,6 +32,14 @@ class Pessoa:
 
     @staticmethod
     def gerar(quantidade = 1):
+        """geração dos dados
+
+        Args:
+            quantidade (int, opcional): quantidado de candidatos que será gerada artificialmete. Padrão é 1.
+
+        Returns:
+            list: lista com os dados gerados para os candidatos
+       """
         cursos_campus = [{'administração':
                 choice(['curitiba', 'pato branco'])},
             {'agronomia':
@@ -132,10 +151,20 @@ class Pessoa:
 
     @staticmethod
     def mostrar(lista):
+        """exibe os dados dos candidatos
+
+        Args:
+            lista (list): dados gerados para os candidatos
+        """
         print([str(candidato) for candidato in lista])
 
 
     def __str__(self):
+        """Padrão de string para o objeto
+
+        Returns:
+            string: dados gerados para os candidatos com separação entre um candidato e outro
+        """
         return f"[nome={self.nome}, email={self.email}, whatsapp={self.whatsapp}, ra={self.ra}, curso={self.curso}, periodo={self.periodo}, campus={self.campus}, area={self.area}, subarea={self.subarea}, qualidades={self.qualidades}, defeitos={self.defeitos}]"
 
 
