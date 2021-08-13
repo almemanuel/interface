@@ -165,9 +165,20 @@ class Pessoa:
         Returns:
             string: dados gerados para os candidatos com separação entre um candidato e outro
         """
-        return f"[nome={self.nome}, email={self.email}, whatsapp={self.whatsapp}, ra={self.ra}, curso={self.curso}, periodo={self.periodo}, campus={self.campus}, area={self.area}, subarea={self.subarea}, qualidades={self.qualidades}, defeitos={self.defeitos}]"
+        return f"{self.nome}, {self.email}, {self.whatsapp}, {self.ra}, {self.curso}, {self.periodo}, {self.campus}, {self.area}, {self.subarea}, {self.qualidades}, {self.defeitos}"
+
+
+def files(lista):
+    candidatos = open('candidatos.csv', "w")
+    candidatos.write("nome, email, whatsapp, RA, curso, período, campus, area, subarea, qualidades, defeitos\n")
+    for c in range(len(lista)):
+        candidatos.write(lista[c])
+        candidatos.write('\n')
+
 
 
 lista = Pessoa.gerar(randrange(1, 10))
 string = Pessoa.salvar(lista)
-print(string)
+files(string)
+print(string[0])
+#print(string)
