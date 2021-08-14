@@ -150,24 +150,58 @@ class Pessoa:
 
 
     @staticmethod
-    def salvar(lista):
-        """salva os dados dos candidatos
+    def organizar(lista):
+        """Organiza os dados dos candidatos de acordo com a área de interesse
 
         Args:
             lista (list): dados gerados para os candidatos
+        Returns:
+            [list]: lista com os dados ordenados por área
         """
-        return [str(candidato) for candidato in lista]
+        lista = [str(candidato) for candidato in lista]
+
+        adm = []
+        avi = []
+        mec = []
+        pesq = []
+        comp = []
+        for i in lista:
+            if 'ADMINISTRATIVO' in i:
+                adm.append(i)
+            elif 'AVIÔNICA' in i:
+                avi.append(i)
+            elif ', MECÂNICA,' in i:
+                mec.append(i)
+            elif 'PESQUISA E EXTENSÃO' in i:
+                pesq.append(i)
+            else:
+                comp.append(i)
+
+        return adm + avi + mec + pesq + comp
 
 
     def __str__(self):
         """Padrão de string para o objeto
 
         Returns:
-            string: dados gerados para os candidatos com separação entre um candidato e outro
+            string: dados gerados para os candidatos com a devida formatação
         """
-        return f"[nome={self.nome}, email={self.email}, whatsapp={self.whatsapp}, ra={self.ra}, curso={self.curso}, periodo={self.periodo}, campus={self.campus}, area={self.area}, subarea={self.subarea}, qualidades={self.qualidades}, defeitos={self.defeitos}]"
+        return f"{self.nome}, {self.email}, {self.whatsapp}, {self.ra}, {self.curso}, {self.periodo}, {self.campus}, {self.area}, {self.subarea}, {self.qualidades}, {self.defeitos}"
 
 
-lista = Pessoa.gerar(randrange(1, 10))
-string = Pessoa.salvar(lista)
-print(string)
+def gerar_e_salvar(quantidade = randrange(1, 100)):
+    """Chamada para a geração dos dados e exportação para planilha
+
+    Args:
+        quantidade (int, opcional): quantidade de dados que será gerado e, consequentemente, de linhas na planilha. Padrão é qualquer valor aleatório no intervalo [1, 100].
+    """
+    planilha = Pessoa.organizar(Pessoa.organizar(Pessoa.gerar(quantidade)))
+    candidatos = open('candidatos.csv', "w")
+    candidatos.write("nome, email, whatsapp, RA, curso, período, campus, area, subarea, qualidades, defeitos\n")
+    for c in range(len(planilha)):
+        candidatos.write(planilha[c])
+        candidatos.write('\n')
+    candidatos.close()
+
+# Programa Principal
+gerar_e_salvar()
