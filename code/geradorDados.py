@@ -17,8 +17,8 @@ class Pessoa:
         """
         self.nome = name()
         self.email = self.nome.replace(" ", "").lower() + '@alunos.utfpr.edu.br'
-        self.whatsapp = f'+55 {randrange(10, 99)} {90000 + randrange(0, 9999)}-{randrange(0, 9999):4}'
-        self.ra = f'{randrange(0, 9999999):7}'
+        self.whatsapp = f'+55 {randrange(10, 99)} {90000 + randrange(0, 9999)}-{(str(randrange(0, 9999))):0>4}'
+        self.ra = f"{str(randrange(1, 9999999)):0<7}"
         self.curso = choice(info_academica)
         self.periodo = randrange(1, 10)
         self.campus = str(self.curso.values())[14:-3].upper()
