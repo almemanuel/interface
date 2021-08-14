@@ -174,7 +174,7 @@ def files(lista):
     for c in range(len(lista)):
         candidatos.write(lista[c])
         candidatos.write('\n')
-
+    candidatos.close()
 
 
 lista = Pessoa.gerar(randrange(1, 10))
