@@ -168,17 +168,19 @@ class Pessoa:
         return f"{self.nome}, {self.email}, {self.whatsapp}, {self.ra}, {self.curso}, {self.periodo}, {self.campus}, {self.area}, {self.subarea}, {self.qualidades}, {self.defeitos}"
 
 
-def files(lista):
-    candidatos = open('candidatos.csv', "w")
+def cfiles(lista, nome):
+    # essa função utiliza o nome especificado pelo usuário e gera um
+    # arquivo csv com a lista de dados aleatorios, alem de adicionar entradas em arquivos existentes
+
+    candidatos = open(nome+'.csv', "a")
     candidatos.write("nome, email, whatsapp, RA, curso, período, campus, area, subarea, qualidades, defeitos\n")
     for c in range(len(lista)):
         candidatos.write(lista[c])
         candidatos.write('\n')
 
 
-
 lista = Pessoa.gerar(randrange(1, 10))
 string = Pessoa.salvar(lista)
-files(string)
-print(string[0])
+nome = input("digite o nome do arquivo: ")
+cfiles(string, nome)
 #print(string)
