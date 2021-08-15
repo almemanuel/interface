@@ -112,7 +112,7 @@ class Pessoa:
                 'curitiba'},
             {'tecnologia em alimentos':
                 choice(['campo mourão', 'londrina', 'medianeira'])},
-            {'tecnologia em análise e desenvolvimento de sistemas':
+            {'análise e desenvolvimento de sistemas':
                 choice(['cornélio procópio', 'pato branco', 'ponta grossa'])},
             {'tecnologia em automação industrial':
                 choice(['curitiba', 'ponta grossa'])},
@@ -189,14 +189,14 @@ class Pessoa:
         return f"{self.nome}, {self.email}, {self.whatsapp}, {self.ra}, {self.curso}, {self.periodo}, {self.campus}, {self.area}, {self.subarea}, {self.qualidades}, {self.defeitos}"
 
 
-def gerar_e_salvar(quantidade = randrange(1, 100)):
+def gerar_e_salvar(file = 'candidatos', quantidade = randrange(1,20)):
     """Chamada para a geração dos dados e exportação para planilha
 
     Args:
         quantidade (int, opcional): quantidade de dados que será gerado e, consequentemente, de linhas na planilha. Padrão é qualquer valor aleatório no intervalo [1, 100].
     """
     planilha = Pessoa.organizar(Pessoa.organizar(Pessoa.gerar(quantidade)))
-    candidatos = open('candidatos.csv', "w")
+    candidatos = open( file+'.csv', "w")
     candidatos.write("nome, email, whatsapp, RA, curso, período, campus, area, subarea, qualidades, defeitos\n")
     for c in range(len(planilha)):
         candidatos.write(planilha[c])
@@ -204,4 +204,4 @@ def gerar_e_salvar(quantidade = randrange(1, 100)):
     candidatos.close()
 
 # Programa Principal
-gerar_e_salvar()
+#gerar_e_salvar()
