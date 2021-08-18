@@ -189,7 +189,7 @@ class Pessoa:
         return f"{self.nome}, {self.email}, {self.whatsapp}, {self.ra}, {self.curso}, {self.periodo}, {self.campus}, {self.area}, {self.subarea}, {self.qualidades}, {self.defeitos}"
 
 
-def gerar_e_salvar(file = 'candidatos', quantidade = randrange(1,20)):
+def gerar_e_salvar(file = 'candidatos', quantidade = randrange(1,100)):
     """Chamada para a geração dos dados e exportação para planilha
 
     Args:
@@ -204,4 +204,4 @@ def gerar_e_salvar(file = 'candidatos', quantidade = randrange(1,20)):
     candidatos.close()
 
 # Programa Principal
-#gerar_e_salvar()
+if __name__ == "__main__": gerar_e_salvar()
