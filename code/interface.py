@@ -64,10 +64,10 @@ def geral():
 
         tk.Message(display, text=str(nomes), width=210, bg="lightblue").place(x=15, y=40)
         tk.Message(display, text=str(email), width=320, bg="lightgreen").place(x=175, y=40)
-        tk.Message(display, text=str(cel), width=260, bg="lightyellow").place(x=465, y=40)
-        tk.Message(display, text=str(ra), width=100, bg="lightpink").place(x=635, y=40)
-        tk.Message(display, text=str(curso), width=700, bg="lightyellow").place(x=732, y=40)
-        tk.Message(display, text=str(periodo), width=60, bg="lightgreen").place(x=1103, y=40)
+        tk.Message(display, text=str(cel), width=260, bg="lightpink").place(x=465, y=40)
+        tk.Message(display, text=str(ra), width=100, bg="lightblue").place(x=635, y=40)
+        tk.Message(display, text=str(curso), width=700, bg="lightgreen").place(x=732, y=40)
+        tk.Message(display, text=str(periodo), width=60, bg="lightpink").place(x=1103, y=40)
         tk.Message(display, text=str(campus), width=300, bg="lightblue").place(x=1173, y=40)
 
         file.close()
