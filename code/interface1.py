@@ -64,17 +64,7 @@ def geral():
         d.geometry("1320x310")
         s = tk.Scrollbar(d, orient=tk.VERTICAL)
         s.pack(side = "right", fill=tk.Y)
-        c = tk.Canvas(d, bg="blue", width=1220, height=1000)
-        display = tk.Frame(c, width=1000, height=1000)
-
-        display.bind(
-        "<Configure>",
-        lambda e: c.configure(
-            scrollregion=c.bbox("all")
-            )
-        )
-
-        c.create_window((0, 0), window=display, anchor="nw")
+        display = tk.Frame(d, bg="pink")
 
         def info(n):
             # essa função mostra mais informações sobre cada participante individualmente
@@ -124,9 +114,8 @@ def geral():
             if n >= 1: tk.Button(display, text=str(a[0]), width = 7, command=partial(info, n)).place(x=1220, y=py)
 
         display.place(x=10, y=10)
-        c.place(x=0, y=0)
-        c.config(yscrollcommand=s.set)
-        s.config(command=c.yview)
+        display.config(yscrollcommand=s.set)
+        s.config(command=display.yview)
         file.close()
 
     def criar():
