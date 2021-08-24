@@ -7,9 +7,7 @@ class Pessoa:
     Classe contendo dados articiais para simular a interface de processo seletivo
     """
     def __init__(self, info_academica = [], info_orion = []):
-        """Construtores da classe
-        Aqui também as strings são devidamente formadas para o padrão correto
-
+        """Construtores da classe e formatação das strings
         Args:
             info_academica (list, opcional): lista com os cursos e os campus onde são ofertados.
             info_orion (list, opcional): lista com as áreas e suas respectivas subáreas.
@@ -149,14 +147,13 @@ class Pessoa:
         return [Pessoa(cursos_campus, area_subarea) for i in range(quantidade)]
 
 
-    @staticmethod
     def organizar(lista):
-        """Organiza os dados dos candidatos de acordo com a área de interesse
+        """Organiza os dados dos candidatos de acordo com a área de interesse, criando uma sublista para cada área
 
         Args:
             lista (list): dados gerados para os candidatos
         Returns:
-            [list]: lista com os dados ordenados por área
+            [list]: lista com os dados ordenados por área, ordenado pela área
         """
         lista = [str(candidato) for candidato in lista]
 
@@ -196,7 +193,7 @@ def gerar_e_salvar(file = 'candidatos', quantidade = randrange(1,100)):
         quantidade (int, opcional): quantidade de dados que será gerado e, consequentemente, de linhas na planilha. Padrão é qualquer valor aleatório no intervalo [1, 100].
     """
     planilha = Pessoa.organizar(Pessoa.organizar(Pessoa.gerar(quantidade)))
-    candidatos = open( file+'.csv', "w")
+    candidatos = open(file+'.csv', "w")
     candidatos.write("nome, email, whatsapp, RA, curso, período, campus, area, subarea, qualidades, defeitos\n")
     for c in range(len(planilha)):
         candidatos.write(planilha[c])
