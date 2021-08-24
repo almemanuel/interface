@@ -61,6 +61,7 @@ def geral():
 
         # aqui cria-se uma nova janela onde os dados são exibidos
         display = tk.Toplevel()
+<<<<<<< HEAD
         display.geometry("1320x310")
 
         tk.Message(display, text=str(nomes), width=210, bg="lightblue").pack(side="left", padx=10)
@@ -110,6 +111,17 @@ def geral():
             py = 15 + n*25
             a = nomes[n].split(" ")
             if n >= 1: tk.Button(display, text=str(a[0]), width = 10, command=partial(info, n)).place(x=1170, y=py)
+=======
+        display.geometry("1340x310")
+
+        tk.Message(display, text=str(nomes), width=210, bg="lightblue").place(x=15, y=40)
+        tk.Message(display, text=str(email), width=320, bg="lightgreen").place(x=175, y=40)
+        tk.Message(display, text=str(cel), width=260, bg="lightpink").place(x=465, y=40)
+        tk.Message(display, text=str(ra), width=100, bg="lightblue").place(x=635, y=40)
+        tk.Message(display, text=str(curso), width=700, bg="lightgreen").place(x=732, y=40)
+        tk.Message(display, text=str(periodo), width=60, bg="lightpink").place(x=1103, y=40)
+        tk.Message(display, text=str(campus), width=300, bg="lightblue").place(x=1173, y=40)
+>>>>>>> 56e454e7c7a430aa141424ea7ac799a0cd98cbc5
 
         file.close()
 
