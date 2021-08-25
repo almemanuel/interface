@@ -60,24 +60,18 @@ def geral():
             defeitos.append(row[10]+'\n')
 
         # aqui cria-se uma nova janela onde os dados são exibidos
-        d = tk.Toplevel()
-        d.geometry("1320x310")
-        s = tk.Scrollbar(d, orient=tk.VERTICAL)
-        s.pack(side = "right", fill=tk.Y)
-        c = tk.Canvas(d, bg="blue", width=1220, height=1000)
-        display = tk.Frame(c, width=1000, height=1000)
+        display = tk.Toplevel()
+        display.geometry("1320x310")
 
-        display.bind(
-        "<Configure>",
-        lambda e: c.configure(
-            scrollregion=c.bbox("all")
-            )
-        )
-
-        c.create_window((0, 0), window=display, anchor="nw")
+        tk.Message(display, text=str(nomes), width=210, bg="lightblue").pack(side="left", padx=10)
+        tk.Message(display, text=str(email), width=320, bg="lightgreen").pack(side="left", padx=10)
+        tk.Message(display, text=str(cel), width=260, bg="lightyellow").pack(side="left", padx=10)
+        tk.Message(display, text=str(ra), width=100, bg="lightpink").pack(side="left", padx=10)
+        tk.Message(display, text=str(curso), width=700, bg="lightyellow").pack(side="left", padx=10)
+        tk.Message(display, text=str(campus), width=300, bg="lightblue").pack(side="left", padx=10)
 
         def info(n):
-            # essa função mostra mais informações sobre cada participante individualmente
+        # essa função mostra mais informações sobre cada participante individualmente
 
             i = tk.Toplevel()
             i.geometry("500x650")
@@ -111,34 +105,21 @@ def geral():
             tk.Button(i, text="sair da aplicação", width=55, command=quit, bg="lightgreen").place(x=15, y=610)
 
 
-        tk.Message(display, text=str(nomes), width=210, bg="lightblue").pack(side="left", padx=7)
-        tk.Message(display, text=str(email), width=320, bg="lightgreen").pack(side="left", padx=7)
-        tk.Message(display, text=str(cel), width=260, bg="lightyellow").pack(side="left", padx=7)
-        tk.Message(display, text=str(ra), width=100, bg="lightpink").pack(side="left", padx=7)
-        tk.Message(display, text=str(curso), width=700, bg="lightyellow").pack(side="left", padx=7)
-        tk.Message(display, text=str(campus), width=300, bg="lightblue").pack(side="left", padx=7)
 
         for n in range(len(nomes)):
             py = 15 + n*25
             a = nomes[n].split(" ")
-            if n >= 1: tk.Button(display, text=str(a[0]), width = 7, command=partial(info, n)).place(x=1220, y=py)
+            if n >= 1: tk.Button(display, text=str(a[0]), width = 10, command=partial(info, n)).place(x=1170, y=py)
 
-        display.place(x=10, y=10)
-        c.place(x=0, y=0)
-        c.config(yscrollcommand=s.set)
-        s.config(command=c.yview)
         file.close()
 
     def criar():
     # essa função cria um arquivo novo com nome e quantidade de dados
     # definidos pelo usuário e mostra na tela
-        try:
-            a = str(arqv.get())
-            gd.gerar_e_salvar(a, int(qnt.get()))
+        a = str(arqv.get())
+        gd.gerar_e_salvar(a, int(qnt.get()))
 
-            abrir(a)
-        except:
-            tkinter.messagebox.showinfo("entrada inválida", "Impossível criar arquivo. Verifique se a quantidade e o nome estão corretos.")
+        abrir(a)
 
     # essa parte adiciona o menu onde o usuário escreve o nome
     # do arquivo csv que deseja visualizar
