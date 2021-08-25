@@ -63,12 +63,12 @@ def geral():
         display = tk.Toplevel()
         display.geometry("1320x310")
 
-        tk.Message(display, text=str(nomes), width=210, bg="lightblue").pack(side="left", padx=10)
-        tk.Message(display, text=str(email), width=320, bg="lightgreen").pack(side="left", padx=10)
-        tk.Message(display, text=str(cel), width=260, bg="lightyellow").pack(side="left", padx=10)
-        tk.Message(display, text=str(ra), width=100, bg="lightpink").pack(side="left", padx=10)
-        tk.Message(display, text=str(curso), width=700, bg="lightyellow").pack(side="left", padx=10)
-        tk.Message(display, text=str(campus), width=300, bg="lightblue").pack(side="left", padx=10)
+        tk.Message(display, text=str(nomes), width=210, bg="lightblue").pack(side="left", padx=7)
+        tk.Message(display, text=str(email), width=320, bg="lightgreen").pack(side="left", padx=7)
+        tk.Message(display, text=str(cel), width=260, bg="lightyellow").pack(side="left", padx=7)
+        tk.Message(display, text=str(ra), width=100, bg="lightpink").pack(side="left", padx=7)
+        tk.Message(display, text=str(curso), width=700, bg="lightyellow").pack(side="left", padx=7)
+        tk.Message(display, text=str(campus), width=300, bg="lightblue").pack(side="left", padx=7)
 
         def info(n):
         # essa função mostra mais informações sobre cada participante individualmente
@@ -109,17 +109,20 @@ def geral():
         for n in range(len(nomes)):
             py = 15 + n*25
             a = nomes[n].split(" ")
-            if n >= 1: tk.Button(display, text=str(a[0]), width = 10, command=partial(info, n)).place(x=1170, y=py)
+            if n >= 1: tk.Button(display, text=str(a[0]), width = 7, command=partial(info, n)).place(x=1220, y=py)
 
         file.close()
 
     def criar():
     # essa função cria um arquivo novo com nome e quantidade de dados
     # definidos pelo usuário e mostra na tela
-        a = str(arqv.get())
-        gd.gerar_e_salvar(a, int(qnt.get()))
+        try:
+            a = str(arqv.get())
+            gd.gerar_e_salvar(a, int(qnt.get()))
 
-        abrir(a)
+            abrir(a)
+        except:
+            tkinter.messagebox.showinfo("entrada inválida", "Impossível criar arquivo. Verifique se a quantidade e o nome estão corretos.")
 
     # essa parte adiciona o menu onde o usuário escreve o nome
     # do arquivo csv que deseja visualizar
