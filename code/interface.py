@@ -61,20 +61,14 @@ def geral():
 
         # aqui cria-se uma nova janela onde os dados são exibidos
         display = tk.Toplevel()
-        display.geometry("1320x310")
+        display.geometry(f"300x{25 * len(nomes) + 25}")
 
-        tk.Message(display, text=str(nomes), width=210, bg="lightblue").pack(side="left", padx=7)
-        tk.Message(display, text=str(email), width=320, bg="lightgreen").pack(side="left", padx=7)
-        tk.Message(display, text=str(cel), width=260, bg="lightyellow").pack(side="left", padx=7)
-        tk.Message(display, text=str(ra), width=100, bg="lightpink").pack(side="left", padx=7)
-        tk.Message(display, text=str(curso), width=700, bg="lightyellow").pack(side="left", padx=7)
-        tk.Message(display, text=str(campus), width=300, bg="lightblue").pack(side="left", padx=7)
 
         def info(n):
         # essa função mostra mais informações sobre cada participante individualmente
 
             i = tk.Toplevel()
-            i.geometry("500x650")
+            i.geometry("500x720")
 
             candidato = tk.Label(i, text=str(nomes[n]))
             candidato["font"] = ("Arial", "20", "bold")
@@ -99,17 +93,21 @@ def geral():
             tk.Message(i, text=str("Qualidades:"), width=130).place(x=15, y=320)
             tk.Message(i, text=str(qualidades[n]), width=340).place(x=125, y=320)
             tk.Message(i, text=str("Defeitos:"), width=130).place(x=15, y=410)
-            tk.Message(i, text=str(defeitos[n]), width=340).place(x=125, y=410)
+            tk.Message(i, text=str(defeitos[n]), width=340).place(x=125, y=420)
 
-            tk.Button(i, text="fechar", width=55, command= i.destroy, bg="lightblue").place(x=15, y=580)
-            tk.Button(i, text="sair da aplicação", width=55, command=quit, bg="lightgreen").place(x=15, y=610)
-
+            ## Botoes
+            if n != 1:
+                tk.Button(i, text="Anterior", width=50, command=lambda:[info(n-1), i.destroy()], bg="lightblue").place(x=10, y=580)
+            tk.Button(i, text="Voltar a lista", width=50, command= i.destroy, bg="lightblue").place(x=10, y=610)
+            tk.Button(i, text="Sair", width=50, command=quit, bg="lightgreen").place(x=10, y=640)
+            if n < len(nomes) - 1:
+                tk.Button(i, text="Próximo", width=50, command=lambda:[info(n+1), i.destroy()], bg="lightblue").place(x=10, y=670)
 
 
         for n in range(len(nomes)):
-            py = 15 + n*25
-            a = nomes[n].split(" ")
-            if n >= 1: tk.Button(display, text=str(a[0]), width = 7, command=partial(info, n)).place(x=1220, y=py)
+            py = n*25
+            primeiro_nome = nomes[n].split(" ")
+            if n > 0: tk.Button(display, text=f"{str(primeiro_nome[0])}", width = 25, command=partial(info, n)).place(x=10, y=py)
 
         file.close()
 
@@ -118,29 +116,30 @@ def geral():
     # definidos pelo usuário e mostra na tela
         try:
             a = str(arqv.get())
-            gd.gerar_e_salvar(a, int(qnt.get()))
+            if int(qnt.get()) > 0:
+                gd.gerar_e_salvar(a, int(qnt.get()))
 
-            abrir(a)
+                abrir(a)
         except:
             tkinter.messagebox.showinfo("entrada inválida", "Impossível criar arquivo. Verifique se a quantidade e o nome estão corretos.")
 
     # essa parte adiciona o menu onde o usuário escreve o nome
     # do arquivo csv que deseja visualizar
-    tk.Message(frame, text="Nome do arquivo a ser aberto:", width=500).place(x=150, y=10)
+    tk.Message(frame, text="Nome do arquivo a ser aberto:", width=500).place(x=10, y=10)
     nome = tk.StringVar()
-    a = tk.Entry(frame, textvariable=nome, width=59).place(x=10, y=40)
-    b = tk.Button(frame, text="buscar", width=56, command=abrir, bg="lightblue").place(x=10, y=65)
+    a = tk.Entry(frame, textvariable=nome, width=50).place(x=10, y=35)
+    b = tk.Button(frame, text="Buscar", width=47, command=abrir, bg="lightblue").place(x=11, y=60)
 
     # aqui é possível criar um novo arquivo usando o gerador de gerador de Dados
-    tk.Message(frame, text="criar um novo arquivo:", width=150).place(x=160, y=120)
-    tk.Message(frame, text="nome: ", width=70).place(x=10, y=150)
-    tk.Message(frame, text="quantidade: ", width=83).place(x=340, y=150)
+    tk.Message(frame, text="Novo do arquivo a ser gerado:", width=500).place(x=10, y=120)
+    tk.Message(frame, text="Nome: ", width=40).place(x=10, y=145)
+    tk.Message(frame, text="Quantidade: ", width=80).place(x=330, y=145)
     arqv = tk.StringVar()
     qnt = tk.IntVar()
-    v = tk.Entry(frame, textvariable=arqv, width = 33).place(x=67, y=150)
-    q = tk.Entry(frame, textvariable=qnt, width=6).place(x=431, y=150)
-    b2 = tk.Button(frame, text="criar", width=56, command=criar, bg="lightgreen").place(x=10, y=175)
-    tk.Button(frame, text="fechar", width=56, command=quit, bg="lightpink").place(x=10, y=300)
+    v = tk.Entry(frame, textvariable=arqv, width = 28).place(x=60, y=145)
+    q = tk.Entry(frame, textvariable=qnt, width=5).place(x=415, y=145)
+    b2 = tk.Button(frame, text="Criar", width=47, command=criar, bg="lightgreen").place(x=11, y=170)
+    tk.Button(frame, text="Fechar", width=47, command=quit, bg="lightpink").place(x=11, y=300)
 
 
     root.mainloop()
