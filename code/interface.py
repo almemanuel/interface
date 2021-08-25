@@ -55,9 +55,7 @@ def geral():
             candidato = tk.Label(i, text=str(dados[0][n]))
             candidato["font"] = ("Arial", "20", "bold")
             candidato.place(x=40, y=20)
-
-            # essa lista contém argumentos para posicionar os elementos no loop
-            args = [80, 110, 140, 170, 200, 230, 260, 290, 320, 420]
+            
             tk.Message(i, text="E-mail:", width=110, font="bold").place(x=15, y=80)
             tk.Message(i, text=str("Whatsapp:"), width=130).place(x=15, y=110)
             tk.Message(i, text=str("RA:"), width=130).place(x=15, y=140)
