@@ -23,37 +23,28 @@ def geral():
             tkinter.messagebox.showinfo("arquivo não encontrado", "O arquivo não foi encontrado ou não pode ser exibido. Verifique se o nome está escrito corretamente. \nNOTA: não é necessário incluir '.csv' no nome do arquivo")
             return
 
-        # as listas paralelas são utilizadas para separar os dados
+        # as listas são utilizadas para separar os dados
         # em suas categorias para que sejam exibidos em ordem
-        nomes = []
-        email = []
-        cel = []
-        ra = []
-        curso = []
-        periodo = []
-        campus = []
-        area = []
-        subarea = []
-        qualidades = []
-        defeitos = []
+        # ordem: dados[0], email, cel, RA, curso, período, campus, ára, sub-área, qualidades e defeitos
+        dados = [[],[],[],[],[],[],[],[],[],[],[]]
 
         reader = csv.reader(file, delimiter = ',')
         for row in reader:
-            nomes.append(row[0])
-            email.append(row[1])
-            cel.append(row[2])
-            ra.append(row[3])
-            curso.append(row[4])
-            periodo.append(row[5])
-            campus.append(row[6])
-            area.append(row[7])
-            subarea.append(row[8])
-            qualidades.append(row[9])
-            defeitos.append(row[10])
+            dados[0].append(row[0])
+            dados[1].append(row[1])
+            dados[2].append(row[2])
+            dados[3].append(row[3])
+            dados[4].append(row[4])
+            dados[5].append(row[5])
+            dados[6].append(row[6])
+            dados[7].append(row[7])
+            dados[8].append(row[8])
+            dados[9].append(row[9])
+            dados[10].append(row[10])
 
         # aqui cria-se uma nova janela onde os dados são exibidos
         display = tk.Toplevel()
-        display.geometry(f"300x{25 * len(nomes) + 25}")
+        display.geometry(f"300x{25 * len(dados[0]) + 25}")
 
         def info(n):
         # essa função mostra mais informações sobre cada participante individualmente
@@ -61,43 +52,42 @@ def geral():
             i = tk.Toplevel()
             i.geometry("500x720")
 
-            candidato = tk.Label(i, text=str(nomes[n]))
+            candidato = tk.Label(i, text=str(dados[0][n]))
             candidato["font"] = ("Arial", "20", "bold")
             candidato.place(x=40, y=20)
 
+            # essa lista contém argumentos para posicionar os elementos no loop
+            args = [80, 110, 140, 170, 200, 230, 260, 290, 320, 420]
             tk.Message(i, text="E-mail:", width=110, font="bold").place(x=15, y=80)
-            tk.Message(i, text=str(email[n]), width=400).place(x=125, y=80)
             tk.Message(i, text=str("Whatsapp:"), width=130).place(x=15, y=110)
-            tk.Message(i, text=str(cel[n]), width=400).place(x=125, y=110)
             tk.Message(i, text=str("RA:"), width=130).place(x=15, y=140)
-            tk.Message(i, text=str(ra[n]), width=400).place(x=125, y=140)
             tk.Message(i, text=str("Curso:"), width=130).place(x=15, y=170)
-            tk.Message(i, text=str(curso[n]), width=1000).place(x=125, y=170)
             tk.Message(i, text=str("Período:"), width=130).place(x=15, y=200)
-            tk.Message(i, text=str(periodo[n]), width=1000).place(x=125, y=200)
             tk.Message(i, text=str("campus:"), width=130).place(x=15, y=230)
-            tk.Message(i, text=str(campus[n]), width=1000).place(x=125, y=230)
             tk.Message(i, text=str("area:"), width=130).place(x=15, y=260)
-            tk.Message(i, text=str(area[n]), width=1000).place(x=125, y=260)
             tk.Message(i, text=str("Sub-área:"), width=130).place(x=15, y=290)
-            tk.Message(i, text=str(subarea[n]), width=1000).place(x=125, y=290)
             tk.Message(i, text=str("Qualidades:"), width=130).place(x=15, y=320)
-            tk.Message(i, text=str(qualidades[n]), width=340).place(x=125, y=320)
-            tk.Message(i, text=str("Defeitos:"), width=130).place(x=15, y=410)
-            tk.Message(i, text=str(defeitos[n]), width=340).place(x=125, y=420)
+            tk.Message(i, text=str("Defeitos:"), width=130).place(x=15, y=440)
+
+            py = 80
+            for j in range(9):
+                tk.Message(i, text=dados[j+1][n], width=340).place(x=125, y=py)
+                py += 30
+
+            tk.Message(i, text=dados[10][n], width=340).place(x=125, y=440)
 
             ## Botoes
             if n != 1:
-                tk.Button(i, text="Anterior", width=50, command=lambda:[info(n-1), i.destroy()], bg="lightblue").place(x=10, y=580)
-            tk.Button(i, text="Voltar a lista", width=50, command= i.destroy, bg="lightblue").place(x=10, y=610)
-            tk.Button(i, text="Sair", width=50, command=quit, bg="lightgreen").place(x=10, y=640)
-            if n < len(nomes) - 1:
-                tk.Button(i, text="Próximo", width=50, command=lambda:[info(n+1), i.destroy()], bg="lightblue").place(x=10, y=670)
+                tk.Button(i, text="Anterior", width=56, command=lambda:[info(n-1), i.destroy()], bg="lightblue").place(x=10, y=580)
+            tk.Button(i, text="Voltar a lista", width=56, command= i.destroy, bg="lightblue").place(x=10, y=610)
+            tk.Button(i, text="Sair", width=56, command=quit, bg="lightgreen").place(x=10, y=640)
+            if n < len(dados[0]) - 1:
+                tk.Button(i, text="Próximo", width=56, command=lambda:[info(n+1), i.destroy()], bg="lightblue").place(x=10, y=670)
 
 
-        for n in range(len(nomes)):
+        for n in range(len(dados[0])):
             py = n*25
-            primeiro_nome = nomes[n].split(" ")
+            primeiro_nome = dados[0][n].split(" ")
             if n > 0: tk.Button(display, text=f"{str(primeiro_nome[0])}", width = 25, command=partial(info, n)).place(x=10, y=py)
 
         file.close()
@@ -106,8 +96,8 @@ def geral():
     # essa função cria um arquivo novo com nome e quantidade de dados
     # definidos pelo usuário e mostra na tela
         try:
-            if int(qnt.get()) < 1: raise Exception()
             a = str(arqv.get())
+            if int(qnt.get()) < 1: raise Exception()
 
             gd.gerar_e_salvar(a, int(qnt.get()))
             abrir(a)
