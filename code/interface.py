@@ -3,20 +3,12 @@ import tkinter.messagebox
 import geradorDados as gd
 import csv
 from functools import partial
-
 def geral():
 # essa função cria elementos gerais e inespecíficos da interface
 
     root = tk.Tk()
-    root.geometry("500x350")
+    root.geometry("435x350")
     frame = tk.Frame(root).place()
-
-    def str(s):  # essa função somente corrige as strings
-        r = ""
-        for i in range(len(s)):
-            for j in s[i]:
-                if j != '{' and j != '}': r += j
-        return r
 
     def abrir(*arg):
     # essa função abre o arquivo especificado pelo usuário
@@ -47,22 +39,21 @@ def geral():
 
         reader = csv.reader(file, delimiter = ',')
         for row in reader:
-            nomes.append(row[0]+'\n')
-            email.append(row[1]+'\n')
-            cel.append(row[2]+'\n')
-            ra.append(row[3]+'\n')
-            curso.append(row[4]+'\n')
-            periodo.append(row[5]+'\n')
-            campus.append(row[6]+'\n')
-            area.append(row[7]+'\n')
-            subarea.append(row[8]+'\n')
-            qualidades.append(row[9]+'\n')
-            defeitos.append(row[10]+'\n')
+            nomes.append(row[0])
+            email.append(row[1])
+            cel.append(row[2])
+            ra.append(row[3])
+            curso.append(row[4])
+            periodo.append(row[5])
+            campus.append(row[6])
+            area.append(row[7])
+            subarea.append(row[8])
+            qualidades.append(row[9])
+            defeitos.append(row[10])
 
         # aqui cria-se uma nova janela onde os dados são exibidos
         display = tk.Toplevel()
         display.geometry(f"300x{25 * len(nomes) + 25}")
-
 
         def info(n):
         # essa função mostra mais informações sobre cada participante individualmente
@@ -115,17 +106,17 @@ def geral():
     # essa função cria um arquivo novo com nome e quantidade de dados
     # definidos pelo usuário e mostra na tela
         try:
+            if int(qnt.get()) < 1: raise Exception()
             a = str(arqv.get())
-            if int(qnt.get()) > 0:
-                gd.gerar_e_salvar(a, int(qnt.get()))
 
-                abrir(a)
+            gd.gerar_e_salvar(a, int(qnt.get()))
+            abrir(a)
         except:
             tkinter.messagebox.showinfo("entrada inválida", "Impossível criar arquivo. Verifique se a quantidade e o nome estão corretos.")
 
     # essa parte adiciona o menu onde o usuário escreve o nome
     # do arquivo csv que deseja visualizar
-    tk.Message(frame, text="Nome do arquivo a ser aberto:", width=500).place(x=10, y=10)
+    tk.Message(frame, text="Nome do arquivo a ser aberto:", width=470).place(x=10, y=10)
     nome = tk.StringVar()
     a = tk.Entry(frame, textvariable=nome, width=50).place(x=10, y=35)
     b = tk.Button(frame, text="Buscar", width=47, command=abrir, bg="lightblue").place(x=11, y=60)
@@ -133,11 +124,11 @@ def geral():
     # aqui é possível criar um novo arquivo usando o gerador de gerador de Dados
     tk.Message(frame, text="Novo do arquivo a ser gerado:", width=500).place(x=10, y=120)
     tk.Message(frame, text="Nome: ", width=40).place(x=10, y=145)
-    tk.Message(frame, text="Quantidade: ", width=80).place(x=330, y=145)
+    tk.Message(frame, text="Quantidade: ", width=80).place(x=286, y=145)
     arqv = tk.StringVar()
     qnt = tk.IntVar()
     v = tk.Entry(frame, textvariable=arqv, width = 28).place(x=60, y=145)
-    q = tk.Entry(frame, textvariable=qnt, width=5).place(x=415, y=145)
+    q = tk.Entry(frame, textvariable=qnt, width=5).place(x=376, y=145)
     b2 = tk.Button(frame, text="Criar", width=47, command=criar, bg="lightgreen").place(x=11, y=170)
     tk.Button(frame, text="Fechar", width=47, command=quit, bg="lightpink").place(x=11, y=300)
 
