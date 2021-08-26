@@ -1,5 +1,6 @@
 import tkinter as tk
 import tkinter.messagebox
+from tkinter import filedialog as dlg
 import geradorDados as gd
 import csv
 from functools import partial
@@ -55,32 +56,34 @@ def geral():
             candidato = tk.Label(i, text=str(dados[0][n]))
             candidato["font"] = ("Arial", "20", "bold")
             candidato.place(x=40, y=20)
-            
-            tk.Message(i, text="E-mail:", width=110, font="bold").place(x=15, y=80)
-            tk.Message(i, text=str("Whatsapp:"), width=130).place(x=15, y=110)
-            tk.Message(i, text=str("RA:"), width=130).place(x=15, y=140)
-            tk.Message(i, text=str("Curso:"), width=130).place(x=15, y=170)
-            tk.Message(i, text=str("Período:"), width=130).place(x=15, y=200)
-            tk.Message(i, text=str("campus:"), width=130).place(x=15, y=230)
-            tk.Message(i, text=str("area:"), width=130).place(x=15, y=260)
-            tk.Message(i, text=str("Sub-área:"), width=130).place(x=15, y=290)
-            tk.Message(i, text=str("Qualidades:"), width=130).place(x=15, y=320)
-            tk.Message(i, text=str("Defeitos:"), width=130).place(x=15, y=440)
+            ## Tentar refatorar este trecho ate o proximo comentario com ##
+            # tamanho ja esta mais agradavel, nao ocultando pedacos da string de qualidades ou defeitos
+            tk.Message(i, text="E-mail:", width=110, font="bold").place(x=15, y=60)
+            tk.Message(i, text=str("WhatsApp:"), width=110).place(x=15, y=85)
+            tk.Message(i, text=str("RA:"), width=110).place(x=15, y=110)
+            tk.Message(i, text=str("Curso:"), width=110).place(x=15, y=135)
+            tk.Message(i, text=str("Período:"), width=110).place(x=15, y=160)
+            tk.Message(i, text=str("Campus:"), width=110).place(x=15, y=185)
+            tk.Message(i, text=str("Área:"), width=110).place(x=15, y=210)
+            tk.Message(i, text=str("Sub-área:"), width=110).place(x=15, y=235)
+            tk.Message(i, text=str("Qualidades:"), width="110").place(x=15, y=260)
+            tk.Message(i, text=str("Defeitos:"), width=110).place(x=15, y=410)
 
-            py = 80
+            py = 60
             for j in range(9):
-                tk.Message(i, text=dados[j+1][n], width=340).place(x=125, y=py)
-                py += 30
+                tk.Message(i, text=dados[j+1][n].tocapitalize(), width=340).place(x=125, y=py)
+                py += 25
 
-            tk.Message(i, text=dados[10][n], width=340).place(x=125, y=440)
+            tk.Message(i, text=dados[10][n], width=340).place(x=125, y=410)
+            ## ate aqui ##
 
-            ## Botoes
+            # Botoes
             if n != 1:
-                tk.Button(i, text="Anterior", width=56, command=lambda:[info(n-1), i.destroy()], bg="lightblue").place(x=10, y=580)
-            tk.Button(i, text="Voltar a lista", width=56, command= i.destroy, bg="lightblue").place(x=10, y=610)
-            tk.Button(i, text="Sair", width=56, command=quit, bg="lightgreen").place(x=10, y=640)
+                tk.Button(i, text="Anterior", width=52, command=lambda:[info(n-1), i.destroy()], bg="lightblue").place(x=11, y=600)
+            tk.Button(i, text="Voltar a lista", width=52, command= i.destroy, bg="lightblue").place(x=11, y=630)
+            tk.Button(i, text="Sair", width=52, command=quit, bg="lightgreen").place(x=11, y=660)
             if n < len(dados[0]) - 1:
-                tk.Button(i, text="Próximo", width=56, command=lambda:[info(n+1), i.destroy()], bg="lightblue").place(x=10, y=670)
+                tk.Button(i, text="Próximo", width=52, command=lambda:[info(n+1), i.destroy()], bg="lightblue").place(x=11, y=690)
 
 
         for n in range(len(dados[0])):
@@ -106,8 +109,8 @@ def geral():
     # do arquivo csv que deseja visualizar
     tk.Message(frame, text="Nome do arquivo a ser aberto:", width=470).place(x=10, y=10)
     nome = tk.StringVar()
-    a = tk.Entry(frame, textvariable=nome, width=50).place(x=10, y=35)
-    b = tk.Button(frame, text="Buscar", width=47, command=abrir, bg="lightblue").place(x=11, y=60)
+    a = tk.Entry(frame, textvariable=nome, width=45).place(x=10, y=35)
+    b = tk.Button(frame, text="Buscar", width=42, command=abrir, bg="lightblue").place(x=11, y=60)
 
     # aqui é possível criar um novo arquivo usando o gerador de gerador de Dados
     tk.Message(frame, text="Novo do arquivo a ser gerado:", width=500).place(x=10, y=120)
@@ -115,10 +118,10 @@ def geral():
     tk.Message(frame, text="Quantidade: ", width=80).place(x=286, y=145)
     arqv = tk.StringVar()
     qnt = tk.IntVar()
-    v = tk.Entry(frame, textvariable=arqv, width = 28).place(x=60, y=145)
-    q = tk.Entry(frame, textvariable=qnt, width=5).place(x=376, y=145)
-    b2 = tk.Button(frame, text="Criar", width=47, command=criar, bg="lightgreen").place(x=11, y=170)
-    tk.Button(frame, text="Fechar", width=47, command=quit, bg="lightpink").place(x=11, y=300)
+    v = tk.Entry(frame, textvariable=arqv, width = 24).place(x=60, y=145)
+    q = tk.Entry(frame, textvariable=qnt, width=4).place(x=376, y=145)
+    b2 = tk.Button(frame, text="Criar", width=42, command=criar, bg="lightgreen").place(x=11, y=170)
+    tk.Button(frame, text="Fechar", width=42, command=quit, bg="lightpink").place(x=11, y=300)
 
 
     root.mainloop()
