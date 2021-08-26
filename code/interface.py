@@ -105,6 +105,7 @@ def geral():
         except:
             tkinter.messagebox.showinfo("entrada inválida", "Impossível criar arquivo. Verifique se a quantidade e o nome estão corretos.")
 
+
     # essa parte adiciona o menu onde o usuário escreve o nome
     # do arquivo csv que deseja visualizar
     tk.Message(frame, text="Nome do arquivo a ser aberto:", width=470).place(x=10, y=10)
