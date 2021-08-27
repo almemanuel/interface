@@ -51,7 +51,7 @@ def geral():
         # essa função mostra mais informações sobre cada participante individualmente
 
             i = tk.Toplevel()
-            i.geometry("500x720")
+            i.geometry("500x680")
 
             candidato = tk.Label(i, text=str(dados[0][n]))
             candidato["font"] = ("Arial", "20", "bold")
@@ -69,11 +69,11 @@ def geral():
             tk.Message(i, text=dados[10][n], width=340).place(x=125, y=410)
             # Botoes
             if n != 1:
-                tk.Button(i, text="Anterior", width=52, command=lambda:[info(n-1), i.destroy()], bg="lightblue").place(x=11, y=600)
-            tk.Button(i, text="Voltar a lista", width=52, command= i.destroy, bg="lightblue").place(x=11, y=630)
-            tk.Button(i, text="Sair", width=52, command=quit, bg="lightgreen").place(x=11, y=660)
+                tk.Button(i, text="Anterior", width=52, command=lambda:[info(n-1), i.destroy()], bg="lightblue").place(x=11, y=555)
+            tk.Button(i, text="Voltar a lista", width=52, command= i.destroy, bg="lightblue").place(x=11, y=585)
+            tk.Button(i, text="Sair", width=52, command=quit, bg="lightgreen").place(x=11, y=615)
             if n < len(dados[0]) - 1:
-                tk.Button(i, text="Próximo", width=52, command=lambda:[info(n+1), i.destroy()], bg="lightblue").place(x=11, y=690)
+                tk.Button(i, text="Próximo", width=52, command=lambda:[info(n+1), i.destroy()], bg="lightblue").place(x=11, y=645)
 
 
         for n in range(len(dados[0])):
