@@ -1,8 +1,8 @@
-import tkinter as tk
 from tkinter.messagebox import showinfo
-import geradorDados as gd
-import csv
 from functools import partial
+import geradorDados as gd
+import tkinter as tk
+import csv
 
 def geral():
 # essa função cria elementos gerais e inespecíficos da interface
@@ -10,6 +10,34 @@ def geral():
     root = tk.Tk()
     root.geometry("435x350")
     frame = tk.Frame(root).place()
+
+    def info(n, dados):
+        # essa função mostra mais informações sobre cada participante individualmente
+
+        i = tk.Toplevel()
+        i.geometry("500x680")
+
+        candidato = tk.Label(i, text=str(dados[0][n]))
+        candidato["font"] = ("Arial", "20", "bold")
+        candidato.place(x=40, y=20)
+
+        py = 60
+        for j in range(9):
+            tk.Message(i, text=dados[j][0]+":", width=110).place(x=15, y=py)
+            tk.Message(i, text=dados[j+1][n], width=340).place(x=125, y=py)
+            py += 25
+
+        tk.Message(i, text=dados[10][0]+":", width=110).place(x=15, y=410)
+        tk.Message(i, text=dados[10][n], width=340).place(x=125, y=410)
+
+            # Botoes
+        if n != 1:
+            tk.Button(i, text="Anterior", width=52, command=lambda:[info(n-1, dados), i.destroy()], bg="lightblue").place(x=11, y=555)
+        tk.Button(i, text="Voltar a lista", width=52, command= i.destroy, bg="lightblue").place(x=11, y=585)
+        tk.Button(i, text="Sair", width=52, command=quit, bg="lightgreen").place(x=11, y=615)
+        if n < len(dados[0]) - 1:
+            tk.Button(i, text="Próximo", width=52, command=lambda:[info(n+1, dados), i.destroy()], bg="lightblue").place(x=11, y=645)
+
 
     def abrir(*arg):
     # essa função abre o arquivo especificado pelo usuário
@@ -47,41 +75,10 @@ def geral():
         display = tk.Toplevel()
         display.geometry(f"300x{25 * len(dados[0]) + 25}")
 
-        def info(n):
-        # essa função mostra mais informações sobre cada participante individualmente
-
-            i = tk.Toplevel()
-            i.geometry("500x680")
-
-            candidato = tk.Label(i, text=str(dados[0][n]))
-            candidato["font"] = ("Arial", "20", "bold")
-            candidato.place(x=40, y=20)
-
-            msgs = ["E-mail:", "WhatsApp:", "RA:", "Curso:", "Período:", "Campus:", "Área:", "Sub-área:", "Qualidades:", "Defeitos:"]
-
-            py = 60
-            for j in range(9):
-                tk.Message(i, text=msgs[j], width=110).place(x=15, y=py)
-                tk.Message(i, text=dados[j+1][n], width=340).place(x=125, y=py)
-                py += 25
-
-            tk.Message(i, text=msgs[9], width=110).place(x=15, y=410)
-            tk.Message(i, text=dados[10][n], width=340).place(x=125, y=410)
-            # Botoes
-            if n != 1:
-                tk.Button(i, text="Anterior", width=52, command=lambda:[info(n-1), i.destroy()], bg="lightblue").place(x=11, y=555)
-            tk.Button(i, text="Voltar a lista", width=52, command= i.destroy, bg="lightblue").place(x=11, y=585)
-            tk.Button(i, text="Sair", width=52, command=quit, bg="lightgreen").place(x=11, y=615)
-            if n < len(dados[0]) - 1:
-                tk.Button(i, text="Próximo", width=52, command=lambda:[info(n+1), i.destroy()], bg="lightblue").place(x=11, y=645)
-
-
         for n in range(len(dados[0])):
             py = n*25
             primeiro_nome = dados[0][n].split(" ")
-            if n > 0: tk.Button(display, text=f"{str(primeiro_nome[0])}", width = 25, command=partial(info, n)).place(x=10, y=py)
-
-        file.close()
+            if n > 0: tk.Button(display, text=f"{str(primeiro_nome[0])}", width = 25, command=partial(info, n, dados)).place(x=10, y=py)
 
     def criar():
     # essa função cria um arquivo novo com nome e quantidade de dados
@@ -114,8 +111,6 @@ def geral():
     tk.Button(frame, text="Criar", width=42, command=criar, bg="lightgreen").place(x=11, y=170)
     tk.Button(frame, text="Fechar", width=42, command=quit, bg="lightpink").place(x=11, y=300)
 
-
     root.mainloop()
-
 
 geral()
