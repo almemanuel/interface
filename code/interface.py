@@ -1,9 +1,9 @@
 import tkinter as tk
-import tkinter.messagebox
-from tkinter import filedialog as dlg
+from tkinter.messagebox import showinfo
 import geradorDados as gd
 import csv
 from functools import partial
+
 def geral():
 # essa função cria elementos gerais e inespecíficos da interface
 
@@ -21,7 +21,7 @@ def geral():
         try:  # verifica se o nome do arquivo é válido
             file = open(f+'.csv', newline = '')
         except:
-            tkinter.messagebox.showinfo("arquivo não encontrado", "O arquivo não foi encontrado ou não pode ser exibido. Verifique se o nome está escrito corretamente. \nNOTA: não é necessário incluir '.csv' no nome do arquivo")
+            showinfo("arquivo não encontrado", "O arquivo não foi encontrado ou não pode ser exibido. Verifique se o nome está escrito corretamente. \nNOTA: não é necessário incluir '.csv' no nome do arquivo")
             return
 
         # as listas são utilizadas para separar os dados
@@ -56,27 +56,17 @@ def geral():
             candidato = tk.Label(i, text=str(dados[0][n]))
             candidato["font"] = ("Arial", "20", "bold")
             candidato.place(x=40, y=20)
-            ## Tentar refatorar este trecho ate o proximo comentario com ##
-            # tamanho ja esta mais agradavel, nao ocultando pedacos da string de qualidades ou defeitos
-            tk.Message(i, text="E-mail:", width=110, font="bold").place(x=15, y=60)
-            tk.Message(i, text=str("WhatsApp:"), width=110).place(x=15, y=85)
-            tk.Message(i, text=str("RA:"), width=110).place(x=15, y=110)
-            tk.Message(i, text=str("Curso:"), width=110).place(x=15, y=135)
-            tk.Message(i, text=str("Período:"), width=110).place(x=15, y=160)
-            tk.Message(i, text=str("Campus:"), width=110).place(x=15, y=185)
-            tk.Message(i, text=str("Área:"), width=110).place(x=15, y=210)
-            tk.Message(i, text=str("Sub-área:"), width=110).place(x=15, y=235)
-            tk.Message(i, text=str("Qualidades:"), width="110").place(x=15, y=260)
-            tk.Message(i, text=str("Defeitos:"), width=110).place(x=15, y=410)
+
+            msgs = ["E-mail:", "WhatsApp:", "RA:", "Curso:", "Período:", "Campus:", "Área:", "Sub-área:", "Qualidades:", "Defeitos:"]
 
             py = 60
             for j in range(9):
-                tk.Message(i, text=dados[j+1][n].tocapitalize(), width=340).place(x=125, y=py)
+                tk.Message(i, text=msgs[j], width=110).place(x=15, y=py)
+                tk.Message(i, text=dados[j+1][n], width=340).place(x=125, y=py)
                 py += 25
 
+            tk.Message(i, text=msgs[9], width=110).place(x=15, y=410)
             tk.Message(i, text=dados[10][n], width=340).place(x=125, y=410)
-            ## ate aqui ##
-
             # Botoes
             if n != 1:
                 tk.Button(i, text="Anterior", width=52, command=lambda:[info(n-1), i.destroy()], bg="lightblue").place(x=11, y=600)
@@ -103,15 +93,15 @@ def geral():
             gd.gerar_e_salvar(a, int(qnt.get()))
             abrir(a)
         except:
-            tkinter.messagebox.showinfo("entrada inválida", "Impossível criar arquivo. Verifique se a quantidade e o nome estão corretos.")
+            showinfo("entrada inválida", "Impossível criar arquivo. Verifique se a quantidade e o nome estão corretos.")
 
 
     # essa parte adiciona o menu onde o usuário escreve o nome
     # do arquivo csv que deseja visualizar
     tk.Message(frame, text="Nome do arquivo a ser aberto:", width=470).place(x=10, y=10)
     nome = tk.StringVar()
-    a = tk.Entry(frame, textvariable=nome, width=45).place(x=10, y=35)
-    b = tk.Button(frame, text="Buscar", width=42, command=abrir, bg="lightblue").place(x=11, y=60)
+    tk.Entry(frame, textvariable=nome, width=45).place(x=10, y=35)
+    tk.Button(frame, text="Buscar", width=42, command=abrir, bg="lightblue").place(x=11, y=60)
 
     # aqui é possível criar um novo arquivo usando o gerador de gerador de Dados
     tk.Message(frame, text="Novo do arquivo a ser gerado:", width=500).place(x=10, y=120)
@@ -119,9 +109,9 @@ def geral():
     tk.Message(frame, text="Quantidade: ", width=80).place(x=286, y=145)
     arqv = tk.StringVar()
     qnt = tk.IntVar()
-    v = tk.Entry(frame, textvariable=arqv, width = 24).place(x=60, y=145)
-    q = tk.Entry(frame, textvariable=qnt, width=4).place(x=376, y=145)
-    b2 = tk.Button(frame, text="Criar", width=42, command=criar, bg="lightgreen").place(x=11, y=170)
+    tk.Entry(frame, textvariable=arqv, width = 24).place(x=60, y=145)
+    tk.Entry(frame, textvariable=qnt, width=4).place(x=376, y=145)
+    tk.Button(frame, text="Criar", width=42, command=criar, bg="lightgreen").place(x=11, y=170)
     tk.Button(frame, text="Fechar", width=42, command=quit, bg="lightpink").place(x=11, y=300)
 
 
