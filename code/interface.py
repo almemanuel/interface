@@ -1,43 +1,15 @@
-from tkinter.messagebox import showinfo
-from functools import partial
-import geradorDados as gd
 import tkinter as tk
+import tkinter.messagebox
+from tkinter import filedialog as dlg
+import geradorDados as gd
 import csv
-
+from functools import partial
 def geral():
 # essa função cria elementos gerais e inespecíficos da interface
 
     root = tk.Tk()
     root.geometry("435x350")
     frame = tk.Frame(root).place()
-
-    def info(n, dados):
-        # essa função mostra mais informações sobre cada participante individualmente
-
-        i = tk.Toplevel()
-        i.geometry("500x680")
-
-        candidato = tk.Label(i, text=str(dados[0][n]))
-        candidato["font"] = ("Arial", "20", "bold")
-        candidato.place(x=40, y=20)
-
-        py = 60
-        for j in range(9):
-            tk.Message(i, text=dados[j][0]+":", width=110).place(x=15, y=py)
-            tk.Message(i, text=dados[j+1][n], width=340).place(x=125, y=py)
-            py += 25
-
-        tk.Message(i, text=dados[10][0]+":", width=110).place(x=15, y=410)
-        tk.Message(i, text=dados[10][n], width=340).place(x=125, y=410)
-
-            # Botoes
-        if n != 1:
-            tk.Button(i, text="Anterior", width=52, command=lambda:[info(n-1, dados), i.destroy()], bg="lightblue").place(x=11, y=555)
-        tk.Button(i, text="Voltar a lista", width=52, command= i.destroy, bg="lightblue").place(x=11, y=585)
-        tk.Button(i, text="Sair", width=52, command=quit, bg="lightgreen").place(x=11, y=615)
-        if n < len(dados[0]) - 1:
-            tk.Button(i, text="Próximo", width=52, command=lambda:[info(n+1, dados), i.destroy()], bg="lightblue").place(x=11, y=645)
-
 
     def abrir(*arg):
     # essa função abre o arquivo especificado pelo usuário
@@ -49,7 +21,7 @@ def geral():
         try:  # verifica se o nome do arquivo é válido
             file = open(f+'.csv', newline = '')
         except:
-            showinfo("arquivo não encontrado", "O arquivo não foi encontrado ou não pode ser exibido. Verifique se o nome está escrito corretamente. \nNOTA: não é necessário incluir '.csv' no nome do arquivo")
+            tkinter.messagebox.showinfo("arquivo não encontrado", "O arquivo não foi encontrado ou não pode ser exibido. Verifique se o nome está escrito corretamente. \nNOTA: não é necessário incluir '.csv' no nome do arquivo")
             return
 
         # as listas são utilizadas para separar os dados
@@ -75,22 +47,72 @@ def geral():
         display = tk.Toplevel()
         display.geometry(f"300x{25 * len(dados[0]) + 25}")
 
+        def info(n):
+        # essa função mostra mais informações sobre cada participante individualmente
+
+            i = tk.Toplevel()
+            i.geometry("500x720")
+
+            candidato = tk.Label(i, text=str(dados[0][n]))
+            candidato["font"] = ("Arial", "20", "bold")
+            candidato.place(x=40, y=20)
+            ## Tentar refatorar este trecho ate o proximo comentario com ##
+            # tamanho ja esta mais agradavel, nao ocultando pedacos da string de qualidades ou defeitos
+            tk.Message(i, text="E-mail:", width=110, font="bold").place(x=15, y=60)
+            tk.Message(i, text=str("WhatsApp:"), width=110).place(x=15, y=85)
+            tk.Message(i, text=str("RA:"), width=110).place(x=15, y=110)
+            tk.Message(i, text=str("Curso:"), width=110).place(x=15, y=135)
+            tk.Message(i, text=str("Período:"), width=110).place(x=15, y=160)
+            tk.Message(i, text=str("Campus:"), width=110).place(x=15, y=185)
+            tk.Message(i, text=str("Área:"), width=110).place(x=15, y=210)
+            tk.Message(i, text=str("Sub-área:"), width=110).place(x=15, y=235)
+            tk.Message(i, text=str("Qualidades:"), width="110").place(x=15, y=260)
+            tk.Message(i, text=str("Defeitos:"), width=110).place(x=15, y=410)
+
+            py = 60
+            for j in range(9):
+                tk.Message(i, text=dados[j+1][n].tocapitalize(), width=340).place(x=125, y=py)
+                py += 25
+
+            tk.Message(i, text=dados[10][n], width=340).place(x=125, y=410)
+            ## ate aqui ##
+
+            # Botoes
+            if n != 1:
+                tk.Button(i, text="Anterior", width=52, command=lambda:[info(n-1), i.destroy()], bg="lightblue").place(x=11, y=600)
+            tk.Button(i, text="Voltar a lista", width=52, command= i.destroy, bg="lightblue").place(x=11, y=630)
+            tk.Button(i, text="Sair", width=52, command=quit, bg="lightgreen").place(x=11, y=660)
+            if n < len(dados[0]) - 1:
+                tk.Button(i, text="Próximo", width=52, command=lambda:[info(n+1), i.destroy()], bg="lightblue").place(x=11, y=690)
+
+
         for n in range(len(dados[0])):
             py = n*25
             primeiro_nome = dados[0][n].split(" ")
-            if n > 0: tk.Button(display, text=f"{str(primeiro_nome[0])}", width = 25, command=partial(info, n, dados)).place(x=10, y=py)
+            if n > 0: tk.Button(display, text=f"{str(primeiro_nome[0])}", width = 25, command=partial(info, n)).place(x=10, y=py)
+
+        file.close()
+
+
+    def verifica_qnt(qnt):
+        if qnt.isnumeric():
+            return True
+        else:
+            return False
 
     def criar():
     # essa função cria um arquivo novo com nome e quantidade de dados
     # definidos pelo usuário e mostra na tela
-        try:
-            a = str(arqv.get())
-            if int(qnt.get()) < 1: raise Exception()
-
+        a = str(arqv.get())
+        if str(qnt.get()) == '':
+            tkinter.messagebox.showinfo("Quantidada não informada", "Gerando quantidade aleatória de dados.")
+            gd.gerar_e_salvar(a)
+        elif qnt.get().isnumeric() and int(qnt.get()):
             gd.gerar_e_salvar(a, int(qnt.get()))
-            abrir(a)
-        except:
-            showinfo("entrada inválida", "Impossível criar arquivo. Verifique se a quantidade e o nome estão corretos.")
+        else:
+            tkinter.messagebox.showinfo("quantidade inválida", "Impossível criar arquivo. Verifique se a quantidade e o nome estão corretos.")
+            return
+        abrir(a)
 
 
     # essa parte adiciona o menu onde o usuário escreve o nome
@@ -101,16 +123,19 @@ def geral():
     tk.Button(frame, text="Buscar", width=42, command=abrir, bg="lightblue").place(x=11, y=60)
 
     # aqui é possível criar um novo arquivo usando o gerador de gerador de Dados
-    tk.Message(frame, text="Novo do arquivo a ser gerado:", width=500).place(x=10, y=120)
-    tk.Message(frame, text="Nome: ", width=40).place(x=10, y=145)
-    tk.Message(frame, text="Quantidade: ", width=80).place(x=286, y=145)
+    tk.Message(frame, text="SIMULADOR", width=500).place(x=10, y=120)
+    tk.Message(frame, text="Os parametros não são obrigatórios para a simulação.", width=500).place(x=10, y=140)
+    tk.Message(frame, text="Nome: ", width=40).place(x=10, y=165)
+    tk.Message(frame, text="Quantidade: ", width=80).place(x=286, y=165)
     arqv = tk.StringVar()
-    qnt = tk.IntVar()
-    tk.Entry(frame, textvariable=arqv, width = 24).place(x=60, y=145)
-    tk.Entry(frame, textvariable=qnt, width=4).place(x=376, y=145)
-    tk.Button(frame, text="Criar", width=42, command=criar, bg="lightgreen").place(x=11, y=170)
+    qnt = tk.StringVar()
+    tk.Entry(frame, textvariable=arqv, width = 24).place(x=60, y=165)
+    tk.Entry(frame, textvariable=qnt, width=4).place(x=376, y=165)
+    tk.Button(frame, text="Criar", width=42, command=criar, bg="lightgreen").place(x=11, y=190)
     tk.Button(frame, text="Fechar", width=42, command=quit, bg="lightpink").place(x=11, y=300)
 
+
     root.mainloop()
+
 
 geral()
