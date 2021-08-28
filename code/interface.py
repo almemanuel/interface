@@ -3,6 +3,7 @@ from functools import partial
 import geradorDados as gd
 import tkinter as tk
 import csv
+from itertools import product
 
 class interface:
     def __init__(self):
@@ -19,7 +20,7 @@ class interface:
         # essa função mostra mais informações sobre cada participante individualmente
 
         i = tk.Toplevel()
-        i.geometry("500x680")
+        i.geometry("525x680")
 
         candidato = tk.Label(i, text=str(self.dados[0][n]))
         candidato["font"] = ("Arial", "20", "bold")
@@ -35,12 +36,23 @@ class interface:
         tk.Message(i, text=self.dados[10][n], width=340).place(x=125, y=410)
 
         # Botoes
-        if n != 1:
-            tk.Button(i, text="Anterior", width=52, command=lambda:[self.info(n-1), i.destroy()], bg="lightblue").place(x=11, y=555)
-            tk.Button(i, text="Voltar a lista", width=52, command= i.destroy, bg="lightblue").place(x=11, y=585)
-            tk.Button(i, text="Sair", width=52, command=quit, bg="lightgreen").place(x=11, y=615)
-        if n < len(self.dados[0]) - 1:
-            tk.Button(i, text="Próximo", width=52, command=lambda:[self.info(n+1), i.destroy()], bg="lightblue").place(x=11, y=645)
+        ant = tk.Button(i, text="Anterior", width = 51 if n == len(self.dados[0]) - 1 else 24, command=lambda:[self.info(n-1), i.destroy()], bg="lightblue")
+        voltar = tk.Button(i, text="Voltar a lista", width=52, command= i.destroy, bg="lightblue")
+        sair = tk.Button(i, text="Sair", width=52, command=quit, bg="lightgreen")
+        prox = tk.Button(i, text="Próximo", width = 51 if n == 1 else 24, command=lambda:[self.info(n+1), i.destroy()], bg="lightblue")
+        if n == 1:
+            prox.place(x=11, y=555)
+            voltar.place(x=11, y=585)
+            sair.place(x=11, y=615)
+        elif n < len(self.dados[0]) - 1:
+            ant.place(x=11, y=555)
+            prox.place(x=262, y=555)
+            voltar.place(x=11, y=585)
+            sair.place(x=11, y=615)
+        else:
+            ant.place(x=11, y=555)
+            voltar.place(x=11, y=585)
+            sair.place(x=11, y=645)
 
 
     def abrir(self, *arg):
@@ -58,9 +70,8 @@ class interface:
 
         reader = csv.reader(file, delimiter = ',')
 
-        for row in reader:
-            for cont in range(0, 11):
-                self.dados[cont].append(row[cont])
+        for row, cont in product(reader, range(0, 11)):
+            self.dados[cont].append(row[cont])
 
         # aqui cria-se uma nova janela onde os dados são exibidos
         display = tk.Toplevel()
@@ -70,6 +81,7 @@ class interface:
             py = n*25
             primeiro_nome = self.dados[0][n].split(" ")
             if n > 0: tk.Button(display, text=f"{str(primeiro_nome[0])}", width = 25, command=partial(self.info, n)).place(x=10, y=py)
+
 
     def criar(self):
     # essa função cria um arquivo novo com nome e quantidade de dados
