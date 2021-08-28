@@ -12,7 +12,7 @@ class interface:
 
         self.nome = tk.StringVar()
         self.arqv = tk.StringVar()
-        self.qnt = tk.IntVar()
+        self.qnt = tk.StringVar()
         self.dados = [[],[],[],[],[],[],[],[],[],[],[]]
 
     def info(self, n):
@@ -82,14 +82,16 @@ class interface:
     def criar(self):
     # essa função cria um arquivo novo com nome e quantidade de dados
     # definidos pelo usuário e mostra na tela
-        try:
-            a = str(self.arqv.get())
-            if int(self.qnt.get()) < 1: raise Exception()
-
+        a = str(self.arqv.get())
+        if str(self.qnt.get()) == '':
+            showinfo("Quantidada não informada", "Gerando quantidade aleatória de dados.")
+            gd.gerar_e_salvar(a)
+        elif self.qnt.get().isnumeric() and int(self.qnt.get()):
             gd.gerar_e_salvar(a, int(self.qnt.get()))
-            self.abrir(a)
-        except:
-            showinfo("entrada inválida", "Impossível criar arquivo. Verifique se a quantidade e o nome estão corretos.")
+        else:
+            showinfo("Quantidade inválida", "Impossível gera a quantidade de dados informada. Por favor, digite um valor inteiro não nulo ou deixe o campo vazio para uma quantidade aleatória.")
+            return
+        self.abrir(a)
 
 
 nw = interface()
@@ -101,12 +103,13 @@ def main():
     tk.Button(nw.frame, text="Buscar", width=42, command=nw.abrir, bg="lightblue").place(x=11, y=60)
 
     # aqui é possível criar um novo arquivo usando o gerador de gerador de Dados
-    tk.Message(nw.frame, text="Novo do arquivo a ser gerado:", width=500).place(x=10, y=120)
-    tk.Message(nw.frame, text="Nome: ", width=40).place(x=10, y=145)
-    tk.Message(nw.frame, text="Quantidade: ", width=80).place(x=286, y=145)
-    tk.Entry(nw.frame, textvariable=nw.arqv, width = 24).place(x=60, y=145)
-    tk.Entry(nw.frame, textvariable=nw.qnt, width=4).place(x=376, y=145)
-    tk.Button(nw.frame, text="Criar", width=42, command=nw.criar, bg="lightgreen").place(x=11, y=170)
+    tk.Message(nw.frame, text="SIMULADOR:", width=500).place(x=10, y=120)
+    tk.Message(nw.frame, text="Nenhum parametro é obrigatório", width = 500).place(x=10, y=145)
+    tk.Message(nw.frame, text="Nome: ", width=40).place(x=10, y=170)
+    tk.Message(nw.frame, text="Quantidade: ", width=80).place(x=286, y=170)
+    tk.Entry(nw.frame, textvariable=nw.arqv, width = 24).place(x=60, y=170)
+    tk.Entry(nw.frame, textvariable=nw.qnt, width=4).place(x=376, y=170)
+    tk.Button(nw.frame, text="Criar", width=42, command=nw.criar, bg="lightgreen").place(x=11, y=200)
     tk.Button(nw.frame, text="Fechar", width=42, command=quit, bg="lightpink").place(x=11, y=300)
 
 main()
