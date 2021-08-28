@@ -56,10 +56,6 @@ class interface:
             showinfo("arquivo não encontrado", "O arquivo não foi encontrado ou não pode ser exibido. Verifique se o nome está escrito corretamente. \nNOTA: não é necessário incluir '.csv' no nome do arquivo")
             return
 
-        # as listas são utilizadas para separar os dados
-        # em suas categorias para que sejam exibidos em ordem
-        # ordem: dados[0], email, cel, RA, curso, período, campus, ára, sub-área, qualidades e defeitos
-
         reader = csv.reader(file, delimiter = ',')
         for row in reader:
             self.dados[0].append(row[0])
