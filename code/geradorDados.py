@@ -19,11 +19,11 @@ class Pessoa:
         self.ra = f"{str(randrange(1, 9999999)):0<7}"
         self.curso = choice(info_academica)
         self.periodo = randrange(1, 10)
-        self.campus = str(self.curso.values())[14:-3].upper()
-        self.curso = str(self.curso.keys())[12:-3].upper()
+        self.campus = str(self.curso.values())[14:-3].capitalize()
+        self.curso = str(self.curso.keys())[12:-3].capitalize()
         self.area = choice(info_orion)
-        self.subarea = str(self.area.values())[14:-3].upper()
-        self.area = str(self.area.keys())[12:-3].upper()
+        self.subarea = str(self.area.values())[14:-3].capitalize()
+        self.area = str(self.area.keys())[12:-3].capitalize()
         self.qualidades = paragraph()
         self.defeitos = paragraph()
 
@@ -194,7 +194,7 @@ def gerar_e_salvar(file = 'candidatos', quantidade = randrange(1,100)):
     """
     planilha = Pessoa.organizar(Pessoa.organizar(Pessoa.gerar(quantidade)))
     candidatos = open(file+'.csv', "w")
-    candidatos.write("nome, email, whatsapp, RA, curso, período, campus, area, subarea, qualidades, defeitos\n")
+    candidatos.write("Nome, E-mail, WhatsApp, RA, Curso, Período, Campus, Área, Subarea, Qualidades, Defeitos\n")
     for c in range(len(planilha)):
         candidatos.write(planilha[c])
         candidatos.write('\n')
