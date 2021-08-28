@@ -4,6 +4,7 @@ import geradorDados as gd
 import tkinter as tk
 import csv
 from itertools import product
+from tkinter.filedialog import askopenfilenames as dlg
 
 class interface:
     def __init__(self):
@@ -61,7 +62,9 @@ class interface:
         # a condicional checa se a função foi chamada pela função criar() para exibir o arquivo recém criado
         if len(arg) != 0: f = arg[0]
         else: f = str(self.nome.get())
-
+        if type(f) is tuple:
+            f = ''.join(f)
+            f = f[0:-4]
         try:  # verifica se o nome do arquivo é válido
             file = open(f+'.csv', newline = '')
         except:
@@ -100,15 +103,15 @@ class interface:
 
 nw = interface()
 def main():
-    # essa parte adiciona o menu onde o usuário escreve o nome
-    # do arquivo csv que deseja visualizar
-    tk.Message(nw.frame, text="Nome do arquivo a ser aberto:", width=470).place(x=10, y=10)
-    tk.Entry(nw.frame, textvariable=nw.nome, width=45).place(x=10, y=35)
-    tk.Button(nw.frame, text="Buscar", width=42, command=nw.abrir, bg="lightblue").place(x=11, y=60)
+    # essa parte adiciona o menu onde o usuário busca o arquivo
+    # existente numa caixa de dialogo que exibe seus arquivos
+    tk.Message(nw.frame, text="EXPORTANDO DADOS", width=470).place(x=10, y=10)
+    tk.Message(nw.frame, text="Clique no botão para localizar o arquivo fonte:", width=470).place(x=10, y=35)
+    tk.Button(nw.frame, text="Localizar", width=42, command=lambda:[nw.abrir(dlg())], bg="lightblue").place(x=11, y=60)
 
     # aqui é possível criar um novo arquivo usando o gerador de gerador de Dados
-    tk.Message(nw.frame, text="SIMULADOR:", width=500).place(x=10, y=120)
-    tk.Message(nw.frame, text="Nenhum parametro é obrigatório", width = 500).place(x=10, y=145)
+    tk.Message(nw.frame, text="SIMULADOR", width=500).place(x=10, y=120)
+    tk.Message(nw.frame, text="Obs: nenhum parametro é obrigatório", width = 500).place(x=10, y=145)
     tk.Message(nw.frame, text="Nome: ", width=40).place(x=10, y=170)
     tk.Message(nw.frame, text="Quantidade: ", width=80).place(x=286, y=170)
     tk.Entry(nw.frame, textvariable=nw.arqv, width = 24).place(x=60, y=170)
