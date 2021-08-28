@@ -57,18 +57,10 @@ class interface:
             return
 
         reader = csv.reader(file, delimiter = ',')
+
         for row in reader:
-            self.dados[0].append(row[0])
-            self.dados[1].append(row[1])
-            self.dados[2].append(row[2])
-            self.dados[3].append(row[3])
-            self.dados[4].append(row[4])
-            self.dados[5].append(row[5])
-            self.dados[6].append(row[6])
-            self.dados[7].append(row[7])
-            self.dados[8].append(row[8])
-            self.dados[9].append(row[9])
-            self.dados[10].append(row[10])
+            for cont in range(0, 11):
+                self.dados[cont].append(row[cont])
 
         # aqui cria-se uma nova janela onde os dados são exibidos
         display = tk.Toplevel()
