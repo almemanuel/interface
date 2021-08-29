@@ -53,18 +53,19 @@ class interface:
 
 
     def botoes(self, display):
-        scroll = tk.Scrollbar(display, orient=tk.VERTICAL)
-        scroll.pack(side = tk.RIGHT, fill = tk.Y)
-        blist = tk.Listbox(display, width=300, yscrollcommand = scroll.set)
 
+        px = 10
+        count = 0
         for n in range(len(self.dados[0])):
             py = n*25
             primeiro_nome = self.dados[0][n].split(" ")
-            if n > 0: tk.Button(blist, text=f"{str(primeiro_nome[0])}", width = 25, command=partial(self.info, n)).place(x=10, y=py)
 
-        scroll.config(command = blist.yview)
-        blist.pack(side = tk.LEFT, fill = tk.BOTH)
-        display.mainloop()
+            if n % 19 == 0 and n >0:
+                px += 110
+                py = 25
+                count += 1
+            if n > 19: py = (n - 19*count)*25
+            if n > 0: tk.Button(display, text=f"{str(primeiro_nome[0])}", width = 10, command=partial(self.info, n)).place(x=px, y=py)
 
     def abrir(self, *arg):
     # essa função abre o arquivo especificado pelo usuário
@@ -85,7 +86,7 @@ class interface:
             self.dados[cont].append(row[cont])
 
         display = tk.Toplevel()
-        display.geometry(f"300x300")
+        display.geometry(f"{125 * (len(self.dados[0])//19) + 120}x500")
 
         self.botoes(display)
 
