@@ -43,18 +43,30 @@ class interface:
         prox = tk.Button(i, text="Próximo", width = 51 if n == 1 else 24, command=lambda:[self.info(n+1), i.destroy()], bg="lightblue")
         if n == 1:
             prox.place(x=11, y=555)
-            voltar.place(x=11, y=585)
-            sair.place(x=11, y=615)
         elif n < len(self.dados[0]) - 1:
             ant.place(x=11, y=555)
             prox.place(x=262, y=555)
-            voltar.place(x=11, y=585)
-            sair.place(x=11, y=615)
         else:
             ant.place(x=11, y=555)
-            voltar.place(x=11, y=585)
-            sair.place(x=11, y=645)
 
+        voltar.place(x=11, y=585)
+        sair.place(x=11, y=615)
+
+
+    def botoes(self, display):
+
+        px = 10
+        count = 0
+        for n in range(len(self.dados[0])):
+            py = n*25
+            primeiro_nome = self.dados[0][n].split(" ")
+
+            if n % 19 == 0 and n >0:
+                px += 110
+                py = 25
+                count += 1
+            if n > 19: py = (n - 19*count)*25
+            if n > 0: tk.Button(display, text=f"{str(primeiro_nome[0])}", width = 10, command=partial(self.info, n)).place(x=px, y=py)
 
     def abrir(self, *arg):
     # essa função abre o arquivo especificado pelo usuário
@@ -76,15 +88,10 @@ class interface:
         for row, cont in product(reader, range(0, 11)):
             self.dados[cont].append(row[cont])
 
-        # aqui cria-se uma nova janela onde os dados são exibidos
         display = tk.Toplevel()
-        display.geometry(f"300x{25 * len(self.dados[0]) + 25}")
+        display.geometry(f"{125 * (len(self.dados[0])//19) + 120}x500")
 
-        for n in range(len(self.dados[0])):
-            py = n*25
-            primeiro_nome = self.dados[0][n].split(" ")
-            if n > 0: tk.Button(display, text=f"{str(primeiro_nome[0])}", width = 25, command=partial(self.info, n)).place(x=10, y=py)
-
+        self.botoes(display)
 
     def criar(self):
     # essa função cria um arquivo novo com nome e quantidade de dados
