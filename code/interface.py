@@ -61,13 +61,13 @@ class interface:
             py = n*25
             primeiro_nome = self.dados[0][n].split(" ")
 
-            if n > 19: py = (n - 19*count)*25
-            if n % 19 == 0 and n > 0:
+            if n > 25: py = (n - 25*count)*25
+            if n % 25 == 0 and n > 0:
                 tk.Button(display, text=f"{n} - {str(primeiro_nome[0])}", width = 10, command=partial(self.info, n)).place(x=px, y=py)
-                px += 135
+                px += 125
                 py = 25
                 count += 1
-            if n > 0: tk.Button(display, text=f"{n} - {str(primeiro_nome[0])}", width = 10, command=partial(self.info, n)).place(x=px, y=py)
+            elif n > 0: tk.Button(display, text=f"{n} - {str(primeiro_nome[0])}", width = 10, command=partial(self.info, n)).place(x=px, y=py)
 
     def abrir(self, *arg):
     # essa função abre o arquivo especificado pelo usuário
@@ -90,7 +90,7 @@ class interface:
             self.dados[cont].append(row[cont])
 
         display = tk.Toplevel()
-        display.geometry(f"{145 * (len(self.dados[0])//19) + 145}x{25 * (len(self.dados[0]) if len(self.dados[0]) < 19 else 19) + 50}")
+        display.geometry(f"{145 * (len(self.dados[0])//25 if len(self.dados[0]) < 200 else 7) + 145}x{25 * (len(self.dados[0]) if len(self.dados[0]) <= 25 else 25) + 50}")
 
         self.botoes(display)
 
