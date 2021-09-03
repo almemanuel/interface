@@ -7,6 +7,8 @@ def salvar(arqv, infos):
     for i in range(len(infos)):
         file.write(str(infos[i].get())+",")
 
+    file.close()
+
 def addNovo(dados, arqv):
     window = tk.Toplevel()
     window.geometry("540x480")

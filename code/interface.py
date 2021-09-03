@@ -13,14 +13,12 @@ class interface:
         self.root.geometry("435x350")
         self.frame = tk.Frame(self.root).place()
 
-        self.nome = tk.StringVar()
         self.arqv = tk.StringVar()
         self.qnt = tk.StringVar()
         self.dados = [[],[],[],[],[],[],[],[],[],[],[]]
 
     def info(self, n):
         # essa função mostra mais informações sobre cada participante individualmente
-
         i = tk.Toplevel()
         i.geometry("525x680")
 
@@ -39,8 +37,8 @@ class interface:
 
         # Botoes
         ant = tk.Button(i, text="Anterior", width = 51 if n == len(self.dados[0]) - 1 else 24, command=lambda:[self.info(n-1), i.destroy()], bg="lightblue")
-        voltar = tk.Button(i, text="Voltar a lista", width=52, command= i.destroy, bg="lightblue")
-        sair = tk.Button(i, text="Sair", width=52, command=quit, bg="lightgreen")
+        voltar = tk.Button(i, text="Voltar a lista", width=52, command= i.destroy, bg="lightblue").place(x=11, y=585)
+        sair = tk.Button(i, text="Sair", width=52, command=quit, bg="lightgreen").place(x=11, y=615)
         prox = tk.Button(i, text="Próximo", width = 51 if n == 1 else 24, command=lambda:[self.info(n+1), i.destroy()], bg="lightblue")
         if n == 1:
             prox.place(x=11, y=555)
@@ -50,12 +48,7 @@ class interface:
         else:
             ant.place(x=11, y=555)
 
-        voltar.place(x=11, y=585)
-        sair.place(x=11, y=615)
-
-
     def botoes(self, display):
-
         px = 10
         count = 0
         for n in range(len(self.dados[0])):
@@ -97,7 +90,7 @@ class interface:
 
         file.close()
         display = tk.Toplevel()
-        display.geometry(f"{145 * (len(self.dados[0])//25 if len(self.dados[0]) < 200 else 7) + 145}x{25 * (len(self.dados[0]) if len(self.dados[0]) <= 25 else 25) + 80}")
+        display.geometry(f"{145 * (len(self.dados[0])//25 if len(self.dados[0]) < 200 else 7) + 145}x{25 * (len(self.dados[0]) if len(self.dados[0]) <= 25 else 25) + 90}")
 
         self.botoes(display)
 
