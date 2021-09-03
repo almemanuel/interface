@@ -70,8 +70,9 @@ class interface:
                 count += 1
             elif n > 0: tk.Button(display, text=f"{n} - {str(primeiro_nome[0])}", width = 10, command=partial(self.info, n)).place(x=px, y=py)
 
-        tk.Button(display, text="adicionar novo", width=12*count, command=lambda: adicionar.addNovo(self.dados, str(self.arqv) ), bg="lightyellow").place(x=10, y=25 * (len(self.dados[0]) if len(self.dados[0]) <= 25 else 25) + 30)
+        tk.Button(display, text="adicionar novo", width=12*count, command=lambda: adicionar.addNovo(self.dados, str(self.arqv) ), bg="lightyellow").place(x=10, y=25 * (len(self.dados[0]) if len(self.dados[0]) <= 25 else 25) + 15)
 
+        tk.Button(display, text="retornar", command=display.destroy, width=14*count, bg="lightpink").place(x=10, y=25 * (len(self.dados[0]) if len(self.dados[0]) <= 25 else 25) + 45)
 
     def abrir(self, *arg):
     # essa função abre o arquivo especificado pelo usuário
@@ -94,15 +95,17 @@ class interface:
         for row, cont in product(reader, range(0, 11)):
             self.dados[cont].append(row[cont])
 
+        file.close()
         display = tk.Toplevel()
-        display.geometry(f"{145 * (len(self.dados[0])//25 if len(self.dados[0]) < 200 else 7) + 145}x{25 * (len(self.dados[0]) if len(self.dados[0]) <= 25 else 25) + 70}")
+        display.geometry(f"{145 * (len(self.dados[0])//25 if len(self.dados[0]) < 200 else 7) + 145}x{25 * (len(self.dados[0]) if len(self.dados[0]) <= 25 else 25) + 80}")
 
         self.botoes(display)
 
     def criar(self):
     # essa função cria um arquivo novo com nome e quantidade de dados
     # definidos pelo usuário e mostra na tela
-        a = str(self.arqv.get())
+        if type(self.arqv) is tk.StringVar: a = str(self.arqv.get())
+        else: a = self.arqv
         if str(self.qnt.get()) == '':
             showinfo("Quantidada não informada", "Gerando quantidade aleatória de dados.")
             gd.gerar_e_salvar(a)

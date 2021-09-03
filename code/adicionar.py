@@ -22,4 +22,4 @@ def addNovo(dados, arqv):
         py += 30
 
     tk.Button(window, text="salvar e retornar", width=60, bg="lightblue", command=lambda:[salvar(arqv, infos), window.destroy()]).place(x=10, y=py+40)
-    tk.Button(window, text="salvar e adicionar novo", width=60, bg="lightgreen", command=lambda:[salvar( arqv, infos), window.destroy(), addNovo(dados,arqv)]).place(x=10, y=py+70)
+    tk.Button(window, text="salvar e adicionar novo", width=60, bg="lightgreen", command=lambda:[salvar(arqv, infos), window.destroy(), addNovo(dados,arqv)]).place(x=10, y=py+70)
