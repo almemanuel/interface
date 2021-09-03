@@ -1,10 +1,11 @@
+from tkinter.filedialog import askopenfilenames as dlg
 from tkinter.messagebox import showinfo
+from itertools import product
 from functools import partial
 import geradorDados as gd
+import adicionar
 import tkinter as tk
 import csv
-from itertools import product
-from tkinter.filedialog import askopenfilenames as dlg
 
 class interface:
     def __init__(self):
@@ -69,6 +70,9 @@ class interface:
                 count += 1
             elif n > 0: tk.Button(display, text=f"{n} - {str(primeiro_nome[0])}", width = 10, command=partial(self.info, n)).place(x=px, y=py)
 
+        tk.Button(display, text="adicionar novo", width=12*count, command=lambda: adicionar.addNovo(self.dados, str(self.arqv) ), bg="lightyellow").place(x=10, y=25 * (len(self.dados[0]) if len(self.dados[0]) <= 25 else 25) + 30)
+
+
     def abrir(self, *arg):
     # essa função abre o arquivo especificado pelo usuário
 
@@ -84,13 +88,14 @@ class interface:
             showinfo("arquivo não encontrado", "O arquivo não foi encontrado ou não pode ser exibido. Verifique se o nome está escrito corretamente. \nNOTA: não é necessário incluir '.csv' no nome do arquivo")
             return
 
+        self.arqv = f
         reader = csv.reader(file, delimiter = ',')
 
         for row, cont in product(reader, range(0, 11)):
             self.dados[cont].append(row[cont])
 
         display = tk.Toplevel()
-        display.geometry(f"{145 * (len(self.dados[0])//25 if len(self.dados[0]) < 200 else 7) + 145}x{25 * (len(self.dados[0]) if len(self.dados[0]) <= 25 else 25) + 50}")
+        display.geometry(f"{145 * (len(self.dados[0])//25 if len(self.dados[0]) < 200 else 7) + 145}x{25 * (len(self.dados[0]) if len(self.dados[0]) <= 25 else 25) + 70}")
 
         self.botoes(display)
 
