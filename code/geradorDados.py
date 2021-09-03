@@ -147,36 +147,6 @@ class Pessoa:
         return [Pessoa(cursos_campus, area_subarea) for i in range(quantidade)]
 
 
-    def organizar(lista):
-        """Organiza os dados dos candidatos de acordo com a área de interesse, criando uma sublista para cada área
-
-        Args:
-            lista (list): dados gerados para os candidatos
-        Returns:
-            [list]: lista com os dados ordenados por área, ordenado pela área
-        """
-        lista = [str(candidato) for candidato in lista]
-
-        adm = []
-        avi = []
-        mec = []
-        pesq = []
-        comp = []
-        for i in lista:
-            if 'ADMINISTRATIVO' in i:
-                adm.append(i)
-            elif 'AVIÔNICA' in i:
-                avi.append(i)
-            elif ', MECÂNICA,' in i:
-                mec.append(i)
-            elif 'PESQUISA E EXTENSÃO' in i:
-                pesq.append(i)
-            else:
-                comp.append(i)
-
-        return adm + avi + mec + pesq + comp
-
-
     def __str__(self):
         """Padrão de string para o objeto
 
@@ -192,11 +162,11 @@ def gerar_e_salvar(file = 'candidatos', quantidade = randrange(1,100)):
     Args:
         quantidade (int, opcional): quantidade de dados que será gerado e, consequentemente, de linhas na planilha. Padrão é qualquer valor aleatório no intervalo [1, 100].
     """
-    planilha = Pessoa.organizar(Pessoa.organizar(Pessoa.gerar(quantidade)))
+    planilha = Pessoa.gerar(quantidade)
     candidatos = open(file+'.csv', "w")
     candidatos.write("Nome, E-mail, WhatsApp, RA, Curso, Período, Campus, Área, Subarea, Qualidades, Defeitos\n")
     for c in range(len(planilha)):
-        candidatos.write(planilha[c])
+        candidatos.write(str(planilha[c]))
         candidatos.write('\n')
     candidatos.close()
 
