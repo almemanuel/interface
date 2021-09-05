@@ -58,11 +58,11 @@ class interface:
             primeiro_nome = dados[0][n].split(" ")
             if n > 25: py = (n - 25*count)*25
             if n % 25 == 0 and n > 0:
-                tk.Button(display, text=f"{n} - {str(primeiro_nome[0])}", width = 10, command=partial(self.info, n)).place(x=px, y=py)
+                tk.Button(display, text=f"{n} - {str(primeiro_nome[0])}", width = 10, command=partial(self.info, n, dados)).place(x=px, y=py)
                 px += 125
                 py = 25
                 count += 1
-            elif n > 0: tk.Button(display, text=f"{n} - {str(primeiro_nome[0])}", width = 10, command=partial(self.info, n)).place(x=px, y=py)
+            elif n > 0: tk.Button(display, text=f"{n} - {str(primeiro_nome[0])}", width = 10, command=partial(self.info, n, dados)).place(x=px, y=py)
             if n < 25: ymax = py
         tk.Label(display, text = "Selecione uma área para filtrar: ").place(x = 10, y = ymax + 50)
         ttk.Combobox(display, values=["Administrativo", "Aviônica", "Mecânica", "Pesquisa e Extensão", "Computação"]).place(x = 10, y = ymax + 70)
@@ -99,8 +99,8 @@ class interface:
     def criar(self):
     # essa função cria um arquivo novo com nome e quantidade de dados
     # definidos pelo usuário e mostra na tela
-        if type(self.arqv) is tk.StringVar: a = str(self.arqv.get())
-        else: a = self.arqv
+        a = str(self.arqv.get()) if type(self.arqv) is tk.StringVar else str(self.arqv)
+        
         if str(self.qnt.get()) == '':
             showinfo("Quantidada não informada", "Gerando quantidade aleatória de dados.")
             gd.gerar_e_salvar(a)
