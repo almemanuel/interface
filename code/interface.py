@@ -16,47 +16,46 @@ class interface:
 
         self.arqv = tk.StringVar()
         self.qnt = tk.StringVar()
-        self.dados = [[],[],[],[],[],[],[],[],[],[],[]]
 
-    def info(self, n):
+    def info(self, n, dados):
         # essa função mostra mais informações sobre cada participante individualmente
         i = tk.Toplevel()
         i.geometry("525x680")
 
-        candidato = tk.Label(i, text=str(self.dados[0][n]))
+        candidato = tk.Label(i, text=str(dados[0][n]))
         candidato["font"] = ("Arial", "20", "bold")
         candidato.place(x=40, y=20)
 
         py = 60
         for j in range(9):
-            tk.Message(i, text=self.dados[j+1][0]+":", width=110).place(x=15, y=py)
-            tk.Message(i, text=self.dados[j+1][n], width=340).place(x=125, y=py)
+            tk.Message(i, text=dados[j+1][0]+":", width=110).place(x=15, y=py)
+            tk.Message(i, text=dados[j+1][n], width=340).place(x=125, y=py)
             py += 25
 
-        tk.Message(i, text=self.dados[10][0]+":", width=110).place(x=15, y=410)
-        tk.Message(i, text=self.dados[10][n], width=340).place(x=125, y=410)
+        tk.Message(i, text=dados[10][0]+":", width=110).place(x=15, y=410)
+        tk.Message(i, text=dados[10][n], width=340).place(x=125, y=410)
 
         # Botoes
-        ant = tk.Button(i, text="Anterior", width = 51 if n == len(self.dados[0]) - 1 else 24, command=lambda:[self.info(n-1), i.destroy()], bg="lightblue")
+        ant = tk.Button(i, text="Anterior", width = 51 if n == len(dados[0]) - 1 else 24, command=lambda:[self.info(n-1, dados), i.destroy()], bg="lightblue")
         voltar = tk.Button(i, text="Voltar a lista", width=52, command= i.destroy, bg="lightblue").place(x=11, y=585)
         sair = tk.Button(i, text="Sair", width=52, command=quit, bg="lightgreen").place(x=11, y=615)
-        prox = tk.Button(i, text="Próximo", width = 51 if n == 1 else 24, command=lambda:[self.info(n+1), i.destroy()], bg="lightblue")
+        prox = tk.Button(i, text="Próximo", width = 51 if n == 1 else 24, command=lambda:[self.info(n+1, dados), i.destroy()], bg="lightblue")
         if n == 1:
             prox.place(x=11, y=555)
-        elif n < len(self.dados[0]) - 1:
+        elif n < len(dados[0]) - 1:
             ant.place(x=11, y=555)
             prox.place(x=262, y=555)
         else:
             ant.place(x=11, y=555)
 
-    def botoes(self, display):
-        tk.Button(display, text="Novo", width=3, command=lambda: adicionar.addNovo(self.dados, str(self.arqv) ), bg="lightyellow").place(x=10, y=0)
+    def botoes(self, display, dados):
+        tk.Button(display, text="Novo", width=3, command=lambda: adicionar.addNovo(dados, str(self.arqv) ), bg="lightyellow").place(x=10, y=0)
         tk.Button(display, text="Voltar", command=display.destroy, width=3, bg="lightpink").place(x=70, y=0)
         px = 10
         count = 0
-        for n in range(len(self.dados[0])):
+        for n in range(len(dados[0])):
             py = n*25
-            primeiro_nome = self.dados[0][n].split(" ")
+            primeiro_nome = dados[0][n].split(" ")
             if n > 25: py = (n - 25*count)*25
             if n % 25 == 0 and n > 0:
                 tk.Button(display, text=f"{n} - {str(primeiro_nome[0])}", width = 10, command=partial(self.info, n)).place(x=px, y=py)
@@ -87,19 +86,19 @@ class interface:
         self.arqv = f
         reader = csv.reader(file, delimiter = ',')
 
+        dados = [[],[],[],[],[],[],[],[],[],[],[]]
         for row, cont in product(reader, range(0, 11)):
-            self.dados[cont].append(row[cont])
+            dados[cont].append(row[cont])
 
         file.close()
         display = tk.Toplevel()
-        display.geometry(f"{145 * (len(self.dados[0])//25 if len(self.dados[0]) < 200 else 7) + 145}x{25 * (len(self.dados[0]) if len(self.dados[0]) <= 25 else 25) + 90}")
+        display.geometry(f"{145 * (len(dados[0])//25 if len(dados[0]) < 200 else 7) + 145}x{25 * (len(dados[0]) if len(dados[0]) <= 25 else 25) + 90}")
 
-        self.botoes(display)
+        self.botoes(display, dados)
 
     def criar(self):
     # essa função cria um arquivo novo com nome e quantidade de dados
     # definidos pelo usuário e mostra na tela
-        self.dados = [[],[],[],[],[],[],[],[],[],[],[]]
         if type(self.arqv) is tk.StringVar: a = str(self.arqv.get())
         else: a = self.arqv
         if str(self.qnt.get()) == '':
