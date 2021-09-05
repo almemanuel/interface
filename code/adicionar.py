@@ -5,7 +5,7 @@ def salvar(arqv, infos):
     with open(arqv+".csv", "a") as file:
         for i in range(len(infos)):
             file.write(str(infos[i].get())+",")
-        file.write("1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11\n")
+        file.write("\n")
 
     file.close()
 
