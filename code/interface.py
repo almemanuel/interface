@@ -90,7 +90,7 @@ class interface:
         reader = csv.reader(file, delimiter = ',')
 
         ## alterei pra self, testar depois
-        self.dados = [[],[],[],[],[],[],[],[],[],[],[]]
+        self.dados = [[] for i in range(11)]
         for row, cont in product(reader, range(0, 11)):
             self.dados[cont].append(row[cont])
 

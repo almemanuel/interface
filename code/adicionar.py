@@ -13,8 +13,7 @@ def addNovo(dados, arqv):
     window = tk.Toplevel()
     window.geometry("540x480")
 
-    infos = []
-    for i in range(11): infos.append(tk.StringVar())
+    infos = [tk.StringVar() for i in range(11)]
 
     py = 30
     for d in range(11):
