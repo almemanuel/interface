@@ -5,7 +5,10 @@ import geradorDados as gd
 import adicionar
 import tkinter as tk
 from tkinter import ttk
+from tkinter import *
+from tkinter.ttk import *
 import csv
+
 
 class interface:
     def __init__(self):
@@ -15,6 +18,7 @@ class interface:
 
         self.arqv = tk.StringVar()
         self.qnt = tk.StringVar()
+        self.selec = tk.StringVar()
 
     def info(self, n, dados):
         # essa função mostra mais informações sobre cada participante individualmente
@@ -47,22 +51,31 @@ class interface:
         else:
             ant.place(x=11, y=555)
 
+
+    def teste(self):
+        texto = self.selec.get()
+        print(texto)
+
     def botoes(self, display, dados):
         px = 10
         count = 0
         for n in range(len(dados[0])):
-            py = n*23
+            py = n*25
             primeiro_nome = dados[0][n].split(" ")
-            if n > 25: py = (n - 25*count)*23
+            if n > 25: py = (n - 25*count)*25
             if n % 25 == 0 and n > 0:
                 tk.Button(display, text=f"{n} - {str(primeiro_nome[0])}", width = 10, command=lambda:self.info(n, dados)).place(x=px, y=py)
-                px += 115
+                px += 125
                 count += 1
             elif n > 0: tk.Button(display, text=f"{n} - {str(primeiro_nome[0])}", width = 10, command=lambda:self.info(n, dados)).place(x=px, y=py)
             if n < 25: ymax = py + 10
 
-        tk.Label(display, text = "Selecione uma área para filtrar: ").place(x = 10, y = ymax + 50)
-        ttk.Combobox(display, values=["Administrativo", "Aviônica", "Mecânica", "Pesquisa e Extensão", "Computação"]).place(x = 10, y = ymax + 70)
+        tk.Button(display, text="Novo", width=7, command=lambda: adicionar.addNovo(dados, str(self.arqv) ), bg="lightyellow").place(x=10, y=ymax + 50)
+        tk.Button(display, text="Voltar", command=display.destroy, width=7, bg="lightpink").place(x=110, y=ymax+50)
+        #filtro = self.selec
+        tk.Label(display, text="Para filtrar, selecione abaixo:").place(x = 10, y = ymax + 85)
+        ttk.Combobox(display, textvariable = self.selec, values=["Todos", "Administrativo", "Aviônica", "Mecânica", "Pesquisa e Extensão", "Computação"], width=12).place(x = 10, y = ymax + 105)
+        tk.Button(display, text="Filtrar", width = 3, command=self.teste).place(x = 145, y = ymax + 105)
 
         tk.Button(display, text="Novo", width=3, command=lambda: adicionar.addNovo(dados, str(self.arqv) ), bg="lightyellow").place(x=270, y=ymax + 60)
         tk.Button(display, text="Voltar", command=display.destroy, width=3, bg="lightpink").place(x=220, y=ymax+60)
@@ -82,15 +95,16 @@ class interface:
         self.arqv = f
         reader = csv.reader(file, delimiter = ',')
 
-        dados = [[],[],[],[],[],[],[],[],[],[],[]]
+        ## alterei pra self, testar depois
+        self.dados = [[],[],[],[],[],[],[],[],[],[],[]]
         for row, cont in product(reader, range(0, 11)):
-            dados[cont].append(row[cont])
+            self.dados[cont].append(row[cont])
 
         file.close()
         display = tk.Toplevel()
-        display.geometry(f"{72 * (len(dados[0])//25 if len(dados[0]) < 200 else 7) + 325}x{23 * (len(dados[0]) if len(dados[0]) <= 25 else 25) + 90}")
+        display.geometry(f"{120 * (len(self.dados[0])//25 if len(self.dados[0]) <= 225 else 10) + 100}x{25 * (len(self.dados[0]) if len(self.dados[0]) < 25 else 25) + 150}")
 
-        self.botoes(display, dados)
+        self.botoes(display, self.dados)
 
     def criar(self):
     # essa função cria um arquivo novo com nome e quantidade de dados
