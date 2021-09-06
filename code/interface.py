@@ -52,7 +52,6 @@ class interface:
     def botoes(self, display):
         tk.Button(display, text="Novo", width=3, command=lambda: adicionar.addNovo(self.dados, str(self.arqv) ), bg="lightyellow").place(x=10, y=0)
         tk.Button(display, text="Voltar", command=display.destroy, width=3, bg="lightpink").place(x=70, y=0)
-
         px = 10
         count = 0
         for n in range(len(self.dados[0])):
@@ -100,6 +99,7 @@ class interface:
     def criar(self):
     # essa função cria um arquivo novo com nome e quantidade de dados
     # definidos pelo usuário e mostra na tela
+        self.dados = [[],[],[],[],[],[],[],[],[],[],[]]
         if type(self.arqv) is tk.StringVar: a = str(self.arqv.get())
         else: a = self.arqv
         if str(self.qnt.get()) == '':
