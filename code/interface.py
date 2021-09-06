@@ -49,7 +49,7 @@ class interface:
         else:
             ant.place(x=11, y=555)
 
-    def botoes(self, display, dados):
+    def botoes(self, display, dados, bool):
         px = 20
         count = 0
         for n in range(len(dados[0])):
@@ -64,22 +64,24 @@ class interface:
 
         tk.Button(display, text="Novo", width=7, command=lambda: adicionar.addNovo(dados, str(self.arqv)), bg="lightyellow").place(x=20, y=ymax)
         tk.Button(display, text="Voltar", command=display.destroy, width=7, bg="lightpink").place(x=120, y=ymax)
-        #filtro = self.selec
-        tk.Label(display, text="Para filtrar, selecione abaixo:").place(x = 20, y = ymax + 35)
-        ttk.Combobox(display, textvariable = self.selec, values=["Todos", "Administrativo", "Aviônica", "Mecânica", "Pesquisa e Extensão", "Computação"], width=12).place(x = 20, y = ymax + 65)
-        tk.Button(display, text="Filtrar", width = 3, command=lambda: self.filtro(display, dados)).place(x = 155, y = ymax + 60)
 
-    def abrir(self, dados):
+        if bool:
+            tk.Label(display, text="Para filtrar, selecione abaixo:").place(x = 20, y = ymax + 35)
+            ttk.Combobox(display, textvariable = self.selec, values=["Administrativo", "Aviônica", "Mecânica", "Pesquisa e Extensão", "Computação"], width=12).place(x = 20, y = ymax + 65)
+            tk.Button(display, text="Filtrar", width = 3, command=lambda: self.filtro(dados)).place(x = 155, y = ymax + 60)
+
+    def abrir(self, dados, msg = "Todos os candidatos"):
         display = tk.Toplevel()
         display.geometry(f"{105 * (len(dados[0])//21 if len(dados[0]) <= 225 else 10) + 250}x{20 * (len(dados[0]) if len(dados[0]) < 21 else 25) + 180}")
 
-        self.botoes(display, dados)
+        titulo = tk.Label(display, text=msg)
+        titulo["font"] = ("Arial", "15", "bold")
+        titulo.place(x=20, y=2)
 
-    def filtro(self, display, dados):
-        display.destroy()
+        self.botoes(display, dados, False if msg != "Todos os candidatos" else True)
 
+    def filtro(self, dados):
         filtrados = []
-
         for dado in range(len(dados[0])):
             a = str(dados[7][dado])
             if str(a[1:len(a)]) == str(self.selec.get()): filtrados.append(dado)
@@ -89,7 +91,8 @@ class interface:
             ndados[a].append(dados[a][0])
             for b in filtrados:
                 ndados[a].append(dados[a][b])
-        self.abrir(ndados)
+
+        self.abrir(ndados, self.selec.get())
 
     def gerarDados(self, f):
     # essa função abre o arquivo especificado pelo usuário
