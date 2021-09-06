@@ -139,8 +139,8 @@ class Pessoa:
                 choice(['projetos aviônicos', 'acionamento', 'controle', 'energia', 'telemetria', 'aviônica', 'aviônica para foguetes'])},
             {'mecânica':
                 choice(['projetos mecânicos', 'dinâmica de voo', 'propulsão', 'qualidade', 'estrutura', 'dinâmica de voo', 'simulação'])},
-            {'pesquisa e extensão':
-                choice(['pesquisa e extensão', 'extensão', 'pesquisa científica'])},
+            {'pesquisa e Extensão':
+                choice(['pesquisa e Extensão', 'extensão', 'pesquisa científica'])},
             {'computação':
                 choice(['projetos computacionais', 'inteligência artificial', 'computação'])}]
 

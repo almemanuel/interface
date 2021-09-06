@@ -49,11 +49,6 @@ class interface:
         else:
             ant.place(x=11, y=555)
 
-
-    def teste(self):
-        texto = self.selec.get()
-        print(texto)
-
     def botoes(self, display, dados):
         px = 20
         count = 0
@@ -72,10 +67,31 @@ class interface:
         #filtro = self.selec
         tk.Label(display, text="Para filtrar, selecione abaixo:").place(x = 20, y = ymax + 35)
         ttk.Combobox(display, textvariable = self.selec, values=["Todos", "Administrativo", "Aviônica", "Mecânica", "Pesquisa e Extensão", "Computação"], width=12).place(x = 20, y = ymax + 65)
-        tk.Button(display, text="Filtrar", width = 3, command=self.teste).place(x = 155, y = ymax + 60)
+        tk.Button(display, text="Filtrar", width = 3, command=lambda: self.filtro(display, dados)).place(x = 155, y = ymax + 60)
 
+    def abrir(self, dados):
+        display = tk.Toplevel()
+        display.geometry(f"{105 * (len(dados[0])//21 if len(dados[0]) <= 225 else 10) + 250}x{20 * (len(dados[0]) if len(dados[0]) < 21 else 25) + 180}")
 
-    def abrir(self, f):
+        self.botoes(display, dados)
+
+    def filtro(self, display, dados):
+        display.destroy()
+
+        filtrados = []
+
+        for dado in range(len(dados[0])):
+            a = str(dados[7][dado])
+            if str(a[1:len(a)]) == str(self.selec.get()): filtrados.append(dado)
+        ndados = [[] for i in range(11)]
+
+        for a in range(11):
+            ndados[a].append(dados[a][0])
+            for b in filtrados:
+                ndados[a].append(dados[a][b])
+        self.abrir(ndados)
+
+    def gerarDados(self, f):
     # essa função abre o arquivo especificado pelo usuário
         if type(f) is tuple:
             f = ''.join(f)
@@ -90,15 +106,13 @@ class interface:
         reader = csv.reader(file, delimiter = ',')
 
         ## alterei pra self, testar depois
-        self.dados = [[] for i in range(11)]
+        dados = [[] for i in range(11)]
         for row, cont in product(reader, range(0, 11)):
-            self.dados[cont].append(row[cont])
+            dados[cont].append(row[cont])
 
         file.close()
-        display = tk.Toplevel()
-        display.geometry(f"{105 * (len(self.dados[0])//21 if len(self.dados[0]) <= 225 else 10) + 250}x{20 * (len(self.dados[0]) if len(self.dados[0]) < 21 else 25) + 180}")
+        self.abrir(dados)
 
-        self.botoes(display, self.dados)
 
     def criar(self):
     # essa função cria um arquivo novo com nome e quantidade de dados
@@ -113,7 +127,7 @@ class interface:
         else:
             showinfo("Quantidade inválida", "Impossível gera a quantidade de dados informada. Por favor, digite um valor inteiro ou deixe o campo vazio para uma quantidade aleatória.")
             return
-        self.abrir(a)
+        self.gerarDados(a)
 
 nw = interface()
 def main():
@@ -123,7 +137,7 @@ def main():
     exp["font"] = ("Arial", "16", "bold")
     exp.place(x=10, y=10)
     tk.Message(nw.frame, text="Clique no botão para localizar o arquivo fonte:", width=470).place(x=10, y=35)
-    tk.Button(nw.frame, text="Localizar", width=42, command=lambda:[nw.abrir(dlg())], bg="lightblue").place(x=11, y=60)
+    tk.Button(nw.frame, text="Localizar", width=42, command=lambda:[nw.gerarDados(dlg())], bg="lightblue").place(x=11, y=60)
 
     # aqui é possível criar um novo arquivo usando o gerador de gerador de Dados
     sim = tk.Label(nw.frame, text="SIMULADOR")
