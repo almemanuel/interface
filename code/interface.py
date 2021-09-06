@@ -60,22 +60,22 @@ class interface:
         px = 10
         count = 0
         for n in range(len(dados[0])):
-            py = n*23
+            py = n*25
             primeiro_nome = dados[0][n].split(" ")
-            if n > 25: py = (n - 25*count)*23
+            if n > 25: py = (n - 25*count)*25
             if n % 25 == 0 and n > 0:
                 tk.Button(display, text=f"{n} - {str(primeiro_nome[0])}", width = 10, command=lambda:self.info(n, dados)).place(x=px, y=py)
-                px += 115
+                px += 125
                 count += 1
             elif n > 0: tk.Button(display, text=f"{n} - {str(primeiro_nome[0])}", width = 10, command=lambda:self.info(n, dados)).place(x=px, y=py)
             if n < 25: ymax = py + 10
 
-        tk.Button(display, text="Novo", width=3, command=lambda: adicionar.addNovo(dados, str(self.arqv) ), bg="lightyellow").place(x=10, y=ymax + 50)
-        tk.Button(display, text="Voltar", command=display.destroy, width=3, bg="lightpink").place(x=90, y=ymax+50)
+        tk.Button(display, text="Novo", width=7, command=lambda: adicionar.addNovo(dados, str(self.arqv) ), bg="lightyellow").place(x=10, y=ymax + 50)
+        tk.Button(display, text="Voltar", command=display.destroy, width=7, bg="lightpink").place(x=110, y=ymax+50)
         #filtro = self.selec
-        listaAreas = ["Filtre os candidatos por área", "Administrativo", "Aviônica", "Mecânica", "Pesquisa e Extensão", "Computação"]
-        ttk.Combobox(display, textvariable = self.selec, values=listaAreas).place(x = 10, y = ymax + 85)
-        tk.Button(display, text="Filtrar", width = 10, command=self.teste).place(x = 10, y = ymax + 115)
+        tk.Label(display, text="Para filtrar, selecione abaixo:").place(x = 10, y = ymax + 85)
+        ttk.Combobox(display, textvariable = self.selec, values=["Todos", "Administrativo", "Aviônica", "Mecânica", "Pesquisa e Extensão", "Computação"], width=12).place(x = 10, y = ymax + 105)
+        tk.Button(display, text="Filtrar", width = 3, command=self.teste).place(x = 145, y = ymax + 105)
 
 
 
@@ -100,7 +100,7 @@ class interface:
 
         file.close()
         display = tk.Toplevel()
-        display.geometry(f"{72 * (len(self.dados[0])//25 if len(self.dados[0]) < 200 else 7) + 280}x{23 * (len(self.dados[0]) if len(self.dados[0]) <= 25 else 25) + 140}")
+        display.geometry(f"{120 * (len(self.dados[0])//25 if len(self.dados[0]) <= 225 else 10) + 100}x{25 * (len(self.dados[0]) if len(self.dados[0]) < 25 else 25) + 150}")
 
         self.botoes(display, self.dados)
 
