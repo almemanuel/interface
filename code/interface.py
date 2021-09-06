@@ -1,7 +1,6 @@
 from tkinter.filedialog import askopenfilenames as dlg
 from tkinter.messagebox import showinfo
 from itertools import product
-from functools import partial
 import geradorDados as gd
 import adicionar
 import tkinter as tk
@@ -49,31 +48,28 @@ class interface:
             ant.place(x=11, y=555)
 
     def botoes(self, display, dados):
-        tk.Button(display, text="Novo", width=3, command=lambda: adicionar.addNovo(dados, str(self.arqv) ), bg="lightyellow").place(x=10, y=0)
-        tk.Button(display, text="Voltar", command=display.destroy, width=3, bg="lightpink").place(x=70, y=0)
         px = 10
         count = 0
         for n in range(len(dados[0])):
-            py = n*25
+            py = n*23
             primeiro_nome = dados[0][n].split(" ")
-            if n > 25: py = (n - 25*count)*25
+            if n > 25: py = (n - 25*count)*23
             if n % 25 == 0 and n > 0:
-                tk.Button(display, text=f"{n} - {str(primeiro_nome[0])}", width = 10, command=partial(self.info, n, dados)).place(x=px, y=py)
-                px += 125
-                py = 25
+                tk.Button(display, text=f"{n} - {str(primeiro_nome[0])}", width = 10, command=lambda:self.info(n, dados)).place(x=px, y=py)
+                px += 115
                 count += 1
-            elif n > 0: tk.Button(display, text=f"{n} - {str(primeiro_nome[0])}", width = 10, command=partial(self.info, n, dados)).place(x=px, y=py)
-            if n < 25: ymax = py
+            elif n > 0: tk.Button(display, text=f"{n} - {str(primeiro_nome[0])}", width = 10, command=lambda:self.info(n, dados)).place(x=px, y=py)
+            if n < 25: ymax = py + 10
+
         tk.Label(display, text = "Selecione uma área para filtrar: ").place(x = 10, y = ymax + 50)
         ttk.Combobox(display, values=["Administrativo", "Aviônica", "Mecânica", "Pesquisa e Extensão", "Computação"]).place(x = 10, y = ymax + 70)
 
+        tk.Button(display, text="Novo", width=3, command=lambda: adicionar.addNovo(dados, str(self.arqv) ), bg="lightyellow").place(x=270, y=ymax + 60)
+        tk.Button(display, text="Voltar", command=display.destroy, width=3, bg="lightpink").place(x=220, y=ymax+60)
 
-    def abrir(self, *arg):
+
+    def abrir(self, f):
     # essa função abre o arquivo especificado pelo usuário
-
-        # a condicional checa se a função foi chamada pela função criar() para exibir o arquivo recém criado
-        if len(arg) != 0: f = arg[0]
-        else: f = str(self.nome.get())
         if type(f) is tuple:
             f = ''.join(f)
             f = f[0:-4]
@@ -92,7 +88,7 @@ class interface:
 
         file.close()
         display = tk.Toplevel()
-        display.geometry(f"{145 * (len(dados[0])//25 if len(dados[0]) < 200 else 7) + 145}x{25 * (len(dados[0]) if len(dados[0]) <= 25 else 25) + 90}")
+        display.geometry(f"{72 * (len(dados[0])//25 if len(dados[0]) < 200 else 7) + 325}x{23 * (len(dados[0]) if len(dados[0]) <= 25 else 25) + 90}")
 
         self.botoes(display, dados)
 
@@ -100,28 +96,31 @@ class interface:
     # essa função cria um arquivo novo com nome e quantidade de dados
     # definidos pelo usuário e mostra na tela
         a = str(self.arqv.get()) if type(self.arqv) is tk.StringVar else str(self.arqv)
-        
+
         if str(self.qnt.get()) == '':
             showinfo("Quantidada não informada", "Gerando quantidade aleatória de dados.")
             gd.gerar_e_salvar(a)
-        elif self.qnt.get().isnumeric() and int(self.qnt.get()):
+        elif self.qnt.get().isnumeric():
             gd.gerar_e_salvar(a, int(self.qnt.get()))
         else:
-            showinfo("Quantidade inválida", "Impossível gera a quantidade de dados informada. Por favor, digite um valor inteiro não nulo ou deixe o campo vazio para uma quantidade aleatória.")
+            showinfo("Quantidade inválida", "Impossível gera a quantidade de dados informada. Por favor, digite um valor inteiro ou deixe o campo vazio para uma quantidade aleatória.")
             return
         self.abrir(a)
-
 
 nw = interface()
 def main():
     # essa parte adiciona o menu onde o usuário busca o arquivo
     # existente numa caixa de dialogo que exibe seus arquivos
-    tk.Message(nw.frame, text="EXPORTANDO DADOS", width=470).place(x=10, y=10)
+    exp = tk.Label(nw.frame, text="EXPORTANDO DADOS")
+    exp["font"] = ("Arial", "16", "bold")
+    exp.place(x=10, y=10)
     tk.Message(nw.frame, text="Clique no botão para localizar o arquivo fonte:", width=470).place(x=10, y=35)
     tk.Button(nw.frame, text="Localizar", width=42, command=lambda:[nw.abrir(dlg())], bg="lightblue").place(x=11, y=60)
 
     # aqui é possível criar um novo arquivo usando o gerador de gerador de Dados
-    tk.Message(nw.frame, text="SIMULADOR", width=500).place(x=10, y=120)
+    sim = tk.Label(nw.frame, text="SIMULADOR")
+    sim["font"] = ("Arial", "16", "bold")
+    sim.place(x=10, y=110)
     tk.Message(nw.frame, text="Obs: nenhum parametro é obrigatório", width = 500).place(x=10, y=145)
     tk.Message(nw.frame, text="Nome: ", width=40).place(x=10, y=170)
     tk.Message(nw.frame, text="Quantidade: ", width=80).place(x=286, y=170)
