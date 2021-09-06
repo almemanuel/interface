@@ -70,15 +70,12 @@ class interface:
             elif n > 0: tk.Button(display, text=f"{n} - {str(primeiro_nome[0])}", width = 10, command=lambda:self.info(n, dados)).place(x=px, y=py)
             if n < 25: ymax = py + 10
 
-        tk.Button(display, text="Novo", width=7, command=lambda: adicionar.addNovo(dados, str(self.arqv) ), bg="lightyellow").place(x=10, y=ymax + 50)
+        tk.Button(display, text="Novo", width=7, command=lambda: adicionar.addNovo(dados, str(self.arqv)), bg="lightyellow").place(x=10, y=ymax + 50)
         tk.Button(display, text="Voltar", command=display.destroy, width=7, bg="lightpink").place(x=110, y=ymax+50)
         #filtro = self.selec
         tk.Label(display, text="Para filtrar, selecione abaixo:").place(x = 10, y = ymax + 85)
         ttk.Combobox(display, textvariable = self.selec, values=["Todos", "Administrativo", "Aviônica", "Mecânica", "Pesquisa e Extensão", "Computação"], width=12).place(x = 10, y = ymax + 105)
         tk.Button(display, text="Filtrar", width = 3, command=self.teste).place(x = 145, y = ymax + 105)
-
-        tk.Button(display, text="Novo", width=3, command=lambda: adicionar.addNovo(dados, str(self.arqv) ), bg="lightyellow").place(x=270, y=ymax + 60)
-        tk.Button(display, text="Voltar", command=display.destroy, width=3, bg="lightpink").place(x=220, y=ymax+60)
 
 
     def abrir(self, f):
