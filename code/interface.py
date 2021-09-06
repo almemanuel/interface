@@ -5,8 +5,6 @@ import geradorDados as gd
 import adicionar
 import tkinter as tk
 from tkinter import ttk
-from tkinter import *
-from tkinter.ttk import *
 import csv
 
 
@@ -63,11 +61,10 @@ class interface:
             primeiro_nome = dados[0][n].split(" ")
             py = n*25
             if n > 21: py = (n - 21*count)*25
+            if n > 0: tk.Button(display, text=f"{n} - {str(primeiro_nome[0])}", width = 10, command=lambda:self.info(n, dados)).place(x=px, y=py)
             if n % 21 == 0 and n > 0:
-                tk.Button(display, text=f"{n} - {str(primeiro_nome[0])}", width = 10, command=lambda:self.info(n, dados)).place(x=px, y=py)
                 px += 125
                 count += 1
-            elif n > 0: tk.Button(display, text=f"{n} - {str(primeiro_nome[0])}", width = 10, command=lambda:self.info(n, dados)).place(x=px, y=py)
             if n < 21: ymax = py + 70
 
         tk.Button(display, text="Novo", width=7, command=lambda: adicionar.addNovo(dados, str(self.arqv)), bg="lightyellow").place(x=20, y=ymax)
