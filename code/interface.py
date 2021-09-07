@@ -10,6 +10,11 @@ from functools import partial
 
 
 def bancoDeDados(dados):
+    """cria um arquivo que guardara o resultado final. a cada avaliacao de candidato, ele é reescrito
+
+    Args:
+        dados (list): dados após a avaliacao
+    """
     candidatos = open('posavaliacao.csv', "w")
     candidatos.write("Nome, E-mail, WhatsApp, RA, Curso, Período, Campus, Área, Subarea, Qualidades, Defeitos, Resultado\n")
     print(dados)
@@ -20,6 +25,13 @@ def bancoDeDados(dados):
 
 
 def addRes(resultado, dados, indice):
+    """atualiza o resultado da avaliação de acordo com "resultado" e a situação anterior na lista "dados"
+
+    Args:
+        resultado (int): 0 ou 1 representando o valor logico recebido
+        dados (lista): lista com os dados
+        indice (int): indice a ser atualizado
+    """
     if resultado == 1:
         if dados[-1][indice] == " Reprovado":
             dados[-1][indice] = "Aprovado"
