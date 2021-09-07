@@ -9,6 +9,16 @@ import csv
 from functools import partial
 
 
+def bancoDeDados(dados):
+    candidatos = open('posavaliacao.csv', "w")
+    candidatos.write("Nome, E-mail, WhatsApp, RA, Curso, Período, Campus, Área, Subarea, Qualidades, Defeitos, Resultado\n")
+    print(dados)
+    for c in range(1, len(dados[0])):
+        candidatos.write(f"{dados[0][c].lstrip()}, {dados[1][c].lstrip()}, {dados[2][c].lstrip()}, {dados[3][c].lstrip()}, {dados[4][c].lstrip()}, {dados[5][c].lstrip()}, {dados[6][c].lstrip()}, {dados[7][c].lstrip()}, {dados[8][c].lstrip()}, {dados[9][c].lstrip()}, {dados[10][c].lstrip()}, {dados[11][c].lstrip()}")
+        candidatos.write('\n')
+    candidatos.close()
+
+
 def addRes(resultado, dados, indice):
     if resultado == 1:
         if dados[-1][indice] == " Reprovado":
@@ -20,6 +30,7 @@ def addRes(resultado, dados, indice):
             dados[-1][indice] = " Reprovado"
         else:
             dados[-1][indice] = "Aprovado"
+    bancoDeDados(dados)
 
 
 class interface:
