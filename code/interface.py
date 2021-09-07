@@ -8,9 +8,18 @@ from tkinter import ttk
 import csv
 from functools import partial
 
+
 def addRes(resultado, dados, indice):
     if resultado == 1:
-        dados[-1][indice] = "Aprovado"
+        if dados[-1][indice] == " Reprovado":
+            dados[-1][indice] = "Aprovado"
+        else:
+            dados[-1][indice] = " Reprovado"
+    else:
+        if dados[-1][indice] == " Reprovado":
+            dados[-1][indice] = " Reprovado"
+        else:
+            dados[-1][indice] = "Aprovado"
 
 
 class interface:
@@ -44,6 +53,9 @@ class interface:
         resultado = tk.IntVar()
         if dados[-1][n] == " Reprovado":
             tk.Checkbutton(i, width=110, variable=resultado, onvalue = 1, offvalue = 0).place(x=100, y=545)
+            tk.Message(i, text="MARCAR A CAIXA SE O CANDIDATO FOR APTO", width=340).place(x=125, y=545)
+        else:
+            tk.Checkbutton(i, width=110, variable=resultado, onvalue = 0, offvalue = 1).place(x=100, y=545)
             tk.Message(i, text="MARCAR A CAIXA SE O CANDIDATO FOR APTO", width=340).place(x=125, y=545)
 
 
