@@ -6,6 +6,7 @@ import adicionar
 import tkinter as tk
 from tkinter import ttk
 import csv
+from functools import partial
 
 
 class interface:
@@ -37,17 +38,18 @@ class interface:
         tk.Message(i, text=dados[10][n], width=340).place(x=125, y=410)
 
         # Botoes
-        ant = tk.Button(i, text="Anterior", width = 51 if n == len(dados[0]) - 1 else 24, command=lambda:[self.info(n-1, dados), i.destroy()], bg="lightblue")
+        ant = tk.Button(i, text="Anterior", width = 52 if n == len(dados[0]) - 1 else 24, command=lambda:[self.info(n-1, dados), i.destroy()], bg="lightblue")
         voltar = tk.Button(i, text="Voltar a lista", width=52, command= i.destroy, bg="lightblue").place(x=11, y=585)
         sair = tk.Button(i, text="Sair", width=52, command=quit, bg="lightgreen").place(x=11, y=615)
-        prox = tk.Button(i, text="Próximo", width = 51 if n == 1 else 24, command=lambda:[self.info(n+1, dados), i.destroy()], bg="lightblue")
-        if n == 1:
-            prox.place(x=11, y=555)
-        elif n < len(dados[0]) - 1:
-            ant.place(x=11, y=555)
-            prox.place(x=262, y=555)
-        else:
-            ant.place(x=11, y=555)
+        prox = tk.Button(i, text="Próximo", width = 52 if n == 1 else 24, command=lambda:[self.info(n+1, dados), i.destroy()], bg="lightblue")
+        if len(dados[0]) != 2:
+            if n == 1:
+                prox.place(x=11, y=555)
+            elif n < len(dados[0]) - 1:
+                ant.place(x=11, y=555)
+                prox.place(x=262, y=555)
+            else:
+                ant.place(x=11, y=555)
 
     def botoes(self, display, dados, bool):
         px = 20
@@ -56,7 +58,7 @@ class interface:
             primeiro_nome = dados[0][n].split(" ")
             py = n*25
             if n > 21: py = (n - 21*count)*25
-            if n > 0: tk.Button(display, text=f"{n} - {str(primeiro_nome[0])}", width = 10, command=lambda:self.info(n, dados)).place(x=px, y=py)
+            if n > 0: tk.Button(display, text=f"{n} - {str(primeiro_nome[0])}", width = 10, command=partial(self.info, n, dados)).place(x=px, y=py)
             if n % 21 == 0 and n > 0:
                 px += 125
                 count += 1
@@ -72,7 +74,7 @@ class interface:
 
     def abrir(self, dados, msg = "Todos os candidatos"):
         display = tk.Toplevel()
-        display.geometry(f"{105 * (len(dados[0])//21 if len(dados[0]) <= 225 else 10) + 250}x{20 * (len(dados[0]) if len(dados[0]) < 21 else 25) + 180}")
+        display.geometry(f"{105 * (len(dados[0])//21 if len(dados[0]) <= 225 else 10) + 250}x{20 * (len(dados[0]) if len(dados[0]) < 21 else 25) + 200}")
 
         titulo = tk.Label(display, text=msg)
         titulo["font"] = ("Arial", "15", "bold")
@@ -92,6 +94,7 @@ class interface:
             for b in filtrados:
                 ndados[a].append(dados[a][b])
 
+        print(ndados)
         self.abrir(ndados, self.selec.get())
 
     def gerarDados(self, f):
