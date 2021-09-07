@@ -95,7 +95,7 @@ class interface:
             if str(a[1:len(a)]) == str(self.selec.get()): filtrados.append(dado)
         ndados = [[] for i in range(12)]
 
-        for a in range(11):
+        for a in range(12):
             ndados[a].append(dados[a][0])
             for b in filtrados:
                 ndados[a].append(dados[a][b])
