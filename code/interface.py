@@ -34,22 +34,27 @@ class interface:
             tk.Message(i, text=dados[j+1][n], width=340).place(x=125, y=py)
             py += 25
 
-        tk.Message(i, text=dados[10][0]+":", width=110).place(x=15, y=410)
-        tk.Message(i, text=dados[10][n], width=340).place(x=125, y=410)
+        tk.Message(i, text=dados[-2][0]+":", width=110).place(x=15, y=410)
+        tk.Message(i, text=dados[-2][n], width=340).place(x=125, y=410)
+
+        resultado = tk.IntVar()
+        tk.Checkbutton(i, width=110, variable=resultado).place(x=100, y=545)
+        tk.Message(i, text="MARCAR A CAIXA SE O CANDIDATO FOR APTO", width=340).place(x=125, y=545)
+
 
         # Botoes
         ant = tk.Button(i, text="Anterior", width = 52 if n == len(dados[0]) - 1 else 24, command=lambda:[self.info(n-1, dados), i.destroy()], bg="lightblue")
-        voltar = tk.Button(i, text="Voltar a lista", width=52, command= i.destroy, bg="lightblue").place(x=11, y=585)
-        sair = tk.Button(i, text="Sair", width=52, command=quit, bg="lightgreen").place(x=11, y=615)
+        voltar = tk.Button(i, text="Voltar a lista", width=52, command= i.destroy, bg="lightblue").place(x=11, y=610)
+        sair = tk.Button(i, text="Sair", width=52, command=quit, bg="lightgreen").place(x=11, y=640)
         prox = tk.Button(i, text="Próximo", width = 52 if n == 1 else 24, command=lambda:[self.info(n+1, dados), i.destroy()], bg="lightblue")
         if len(dados[0]) != 2:
             if n == 1:
-                prox.place(x=11, y=555)
+                prox.place(x=11, y=580)
             elif n < len(dados[0]) - 1:
-                ant.place(x=11, y=555)
-                prox.place(x=262, y=555)
+                ant.place(x=11, y=580)
+                prox.place(x=262, y=580)
             else:
-                ant.place(x=11, y=555)
+                ant.place(x=11, y=580)
 
     def botoes(self, display, dados, bool):
         px = 20
@@ -87,7 +92,7 @@ class interface:
         for dado in range(len(dados[0])):
             a = str(dados[7][dado])
             if str(a[1:len(a)]) == str(self.selec.get()): filtrados.append(dado)
-        ndados = [[] for i in range(11)]
+        ndados = [[] for i in range(12)]
 
         for a in range(11):
             ndados[a].append(dados[a][0])
@@ -112,8 +117,8 @@ class interface:
         reader = csv.reader(file, delimiter = ',')
 
         ## alterei pra self, testar depois
-        dados = [[] for i in range(11)]
-        for row, cont in product(reader, range(0, 11)):
+        dados = [[] for i in range(12)]
+        for row, cont in product(reader, range(0, 12)):
             dados[cont].append(row[cont])
 
         file.close()

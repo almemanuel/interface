@@ -26,6 +26,7 @@ class Pessoa:
         self.area = str(self.area.keys())[12:-3].capitalize()
         self.qualidades = paragraph()
         self.defeitos = paragraph()
+        self.resultado = 'Não avaliado'
 
 
     @staticmethod
@@ -153,7 +154,7 @@ class Pessoa:
         Returns:
             string: dados gerados para os candidatos com a devida formatação
         """
-        return f"{self.nome}, {self.email}, {self.whatsapp}, {self.ra}, {self.curso}, {self.periodo}, {self.campus}, {self.area}, {self.subarea}, {self.qualidades}, {self.defeitos}"
+        return f"{self.nome}, {self.email}, {self.whatsapp}, {self.ra}, {self.curso}, {self.periodo}, {self.campus}, {self.area}, {self.subarea}, {self.qualidades}, {self.defeitos}, {self.resultado}"
 
 
 def gerar_e_salvar(file = 'candidatos', quantidade = randrange(1,100)):
@@ -164,7 +165,7 @@ def gerar_e_salvar(file = 'candidatos', quantidade = randrange(1,100)):
     """
     planilha = Pessoa.gerar(quantidade)
     candidatos = open(file+'.csv', "w")
-    candidatos.write("Nome, E-mail, WhatsApp, RA, Curso, Período, Campus, Área, Subarea, Qualidades, Defeitos\n")
+    candidatos.write("Nome, E-mail, WhatsApp, RA, Curso, Período, Campus, Área, Subarea, Qualidades, Defeitos, Resultado\n")
     for c in range(len(planilha)):
         candidatos.write(str(planilha[c]))
         candidatos.write('\n')
