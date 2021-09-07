@@ -1,48 +1,12 @@
 from tkinter.filedialog import askopenfilenames as dlg
 from tkinter.messagebox import showinfo
 from itertools import product
-import geradorDados as gd
-import adicionar
-import tkinter as tk
-from tkinter import ttk
-import csv
 from functools import partial
-
-
-def bancoDeDados(dados):
-    """cria um arquivo que guardara o resultado final. a cada avaliacao de candidato, ele é reescrito
-
-    Args:
-        dados (list): dados após a avaliacao
-    """
-    candidatos = open('posavaliacao.csv', "w")
-    candidatos.write("Nome, E-mail, WhatsApp, RA, Curso, Período, Campus, Área, Subarea, Qualidades, Defeitos, Resultado\n")
-    print(dados)
-    for c in range(1, len(dados[0])):
-        candidatos.write(f"{dados[0][c].lstrip()}, {dados[1][c].lstrip()}, {dados[2][c].lstrip()}, {dados[3][c].lstrip()}, {dados[4][c].lstrip()}, {dados[5][c].lstrip()}, {dados[6][c].lstrip()}, {dados[7][c].lstrip()}, {dados[8][c].lstrip()}, {dados[9][c].lstrip()}, {dados[10][c].lstrip()}, {dados[11][c].lstrip()}")
-        candidatos.write('\n')
-    candidatos.close()
-
-
-def addRes(resultado, dados, indice):
-    """atualiza o resultado da avaliação de acordo com "resultado" e a situação anterior na lista "dados"
-
-    Args:
-        resultado (int): 0 ou 1 representando o valor logico recebido
-        dados (lista): lista com os dados
-        indice (int): indice a ser atualizado
-    """
-    if resultado == 1:
-        if dados[-1][indice] == " Reprovado":
-            dados[-1][indice] = "Aprovado"
-        else:
-            dados[-1][indice] = " Reprovado"
-    else:
-        if dados[-1][indice] == " Reprovado":
-            dados[-1][indice] = " Reprovado"
-        else:
-            dados[-1][indice] = "Aprovado"
-    bancoDeDados(dados)
+import geradorDados as gd
+from tkinter import ttk
+import tkinter as tk
+import adicionar
+import csv
 
 
 class interface:
@@ -74,19 +38,16 @@ class interface:
         tk.Message(i, text=dados[-2][n], width=340).place(x=125, y=410)
 
         resultado = tk.IntVar()
-        if dados[-1][n] == " Reprovado":
-            tk.Checkbutton(i, width=110, variable=resultado, onvalue = 1, offvalue = 0).place(x=100, y=545)
-            tk.Message(i, text="MARCAR A CAIXA SE O CANDIDATO FOR APTO", width=340).place(x=125, y=545)
-        else:
-            tk.Checkbutton(i, width=110, variable=resultado, onvalue = 0, offvalue = 1).place(x=100, y=545)
-            tk.Message(i, text="MARCAR A CAIXA SE O CANDIDATO FOR APTO", width=340).place(x=125, y=545)
+        tk.Message(i, text="MARCAR A CAIXA SE O CANDIDATO FOR APTO", width=340).place(x=10, y=565)
 
+        if dados[-1][n] == " Reprovado": tk.Checkbutton(i, width=3, variable=resultado, onvalue = 1, offvalue = 0).place(x=420, y=565)
+        else: tk.Checkbutton(i, width=3, variable=resultado, onvalue = 0, offvalue = 1).place(x=420, y=565)
 
         # Botoes
-        ant = tk.Button(i, text="Anterior", width = 52 if n == len(dados[0]) - 1 else 24, command=lambda:[addRes(resultado.get(), dados, n), self.info(n-1, dados), i.destroy()], bg="lightblue")
-        voltar = tk.Button(i, text="Voltar a lista", width=52, command= lambda:[addRes(resultado.get(), dados, n), i.destroy()], bg="lightblue").place(x=11, y=630)
-        sair = tk.Button(i, text="Sair", width=52, command=lambda:[addRes(resultado.get(), dados, n), quit()], bg="lightgreen").place(x=11, y=660)
-        prox = tk.Button(i, text="Próximo", width = 52 if n == 1 else 24, command=lambda:[addRes(resultado.get(), dados, n), self.info(n+1, dados), i.destroy()], bg="lightblue")
+        ant = tk.Button(i, text="Anterior", width = 52 if n == len(dados[0]) - 1 else 24, command=lambda:[adicionar.addRes(resultado.get(), dados, n,self.arqv), self.info(n-1, dados), i.destroy()], bg="lightblue")
+        voltar = tk.Button(i, text="Voltar a lista", width=52, command= lambda:[adicionar.addRes(resultado.get(), dados, n, self.arqv), i.destroy()], bg="lightblue").place(x=11, y=630)
+        sair = tk.Button(i, text="Sair", width=52, command=lambda:[adicionar.addRes(resultado.get(), dados, n, self.arqv), quit()], bg="lightgreen").place(x=11, y=660)
+        prox = tk.Button(i, text="Próximo", width = 52 if n == 1 else 24, command=lambda:[adicionar.addRes(resultado.get(), dados, n, self.arqv), self.info(n+1, dados), i.destroy()], bg="lightblue")
         if len(dados[0]) != 2:
             if n == 1:
                 prox.place(x=11, y=600)
@@ -123,7 +84,7 @@ class interface:
 
         titulo = tk.Label(display, text=msg)
         titulo["font"] = ("Arial", "15", "bold")
-        titulo.place(x=20, y=2)
+        titulo.place(x=20, y=0)
 
         self.botoes(display, dados, False if msg != "Todos os candidatos" else True)
 
@@ -139,7 +100,6 @@ class interface:
             for b in filtrados:
                 ndados[a].append(dados[a][b])
 
-        print(ndados)
         self.abrir(ndados, self.selec.get())
 
     def gerarDados(self, f):
@@ -156,7 +116,6 @@ class interface:
         self.arqv = f
         reader = csv.reader(file, delimiter = ',')
 
-        ## alterei pra self, testar depois
         dados = [[] for i in range(12)]
         for row, cont in product(reader, range(0, 12)):
             dados[cont].append(row[cont])
@@ -176,7 +135,7 @@ class interface:
         elif self.qnt.get().isnumeric():
             gd.gerar_e_salvar(a, int(self.qnt.get()))
         else:
-            showinfo("Quantidade inválida", "Impossível gera a quantidade de dados informada. Por favor, digite um valor inteiro ou deixe o campo vazio para uma quantidade aleatória.")
+            showinfo("Quantidade inválida", "Impossível gerar a quantidade de dados informada. Por favor, digite um valor inteiro ou deixe o campo vazio para uma quantidade aleatória.")
             return
         self.gerarDados(a)
 
