@@ -26,7 +26,7 @@ class Pessoa:
         self.area = str(self.area.keys())[12:-3].capitalize()
         self.qualidades = paragraph()
         self.defeitos = paragraph()
-        self.resultado = 'Não avaliado'
+        self.resultado = 'Reprovado'
 
 
     @staticmethod

@@ -8,8 +8,10 @@ from tkinter import ttk
 import csv
 from functools import partial
 
-def addRes(resultado):
-    print(resultado)
+def addRes(resultado, dados, indice):
+    if resultado == 1:
+        dados[-1][indice] = "Aprovado"
+
 
 class interface:
     def __init__(self):
@@ -24,7 +26,7 @@ class interface:
     def info(self, n, dados):
         # essa função mostra mais informações sobre cada participante individualmente
         i = tk.Toplevel()
-        i.geometry("525x680")
+        i.geometry("525x700")
 
         candidato = tk.Label(i, text=str(dados[0][n]))
         candidato["font"] = ("Arial", "20", "bold")
@@ -40,24 +42,24 @@ class interface:
         tk.Message(i, text=dados[-2][n], width=340).place(x=125, y=410)
 
         resultado = tk.IntVar()
-        if dados[-1][n] in [" Não avaliado", "Reprovado"]:
+        if dados[-1][n] == " Reprovado":
             tk.Checkbutton(i, width=110, variable=resultado, onvalue = 1, offvalue = 0).place(x=100, y=545)
             tk.Message(i, text="MARCAR A CAIXA SE O CANDIDATO FOR APTO", width=340).place(x=125, y=545)
 
 
         # Botoes
-        ant = tk.Button(i, text="Anterior", width = 52 if n == len(dados[0]) - 1 else 24, command=lambda:[addRes(resultado.get()), self.info(n-1, dados), i.destroy()], bg="lightblue")
-        voltar = tk.Button(i, text="Voltar a lista", width=52, command= lambda:[addRes(resultado.get()), i.destroy()], bg="lightblue").place(x=11, y=610)
-        sair = tk.Button(i, text="Sair", width=52, command=lambda:[addRes(resultado.get()), quit()], bg="lightgreen").place(x=11, y=640)
-        prox = tk.Button(i, text="Próximo", width = 52 if n == 1 else 24, command=lambda:[addRes(resultado.get()), self.info(n+1, dados), i.destroy()], bg="lightblue")
+        ant = tk.Button(i, text="Anterior", width = 52 if n == len(dados[0]) - 1 else 24, command=lambda:[addRes(resultado.get(), dados, n), self.info(n-1, dados), i.destroy()], bg="lightblue")
+        voltar = tk.Button(i, text="Voltar a lista", width=52, command= lambda:[addRes(resultado.get(), dados, n), i.destroy()], bg="lightblue").place(x=11, y=630)
+        sair = tk.Button(i, text="Sair", width=52, command=lambda:[addRes(resultado.get(), dados, n), quit()], bg="lightgreen").place(x=11, y=660)
+        prox = tk.Button(i, text="Próximo", width = 52 if n == 1 else 24, command=lambda:[addRes(resultado.get(), dados, n), self.info(n+1, dados), i.destroy()], bg="lightblue")
         if len(dados[0]) != 2:
             if n == 1:
-                prox.place(x=11, y=580)
+                prox.place(x=11, y=600)
             elif n < len(dados[0]) - 1:
-                ant.place(x=11, y=580)
-                prox.place(x=262, y=580)
+                ant.place(x=11, y=600)
+                prox.place(x=262, y=600)
             else:
-                ant.place(x=11, y=580)
+                ant.place(x=11, y=600)
 
     def botoes(self, display, dados, bool):
         px = 20
