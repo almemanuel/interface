@@ -1,10 +1,11 @@
 import tkinter as tk
 
 def bancoDeDados(dados, arqv):
-    """cria um arquivo que guardara o resultado final. a cada avaliacao de candidato, ele é reescrito
+    """reescreve a lista no arquivo a cada avaliacao de candidato
 
     Args:
         dados (list): dados após a avaliacao
+        arqv(string): nome do arquivo
     """
     candidatos = open(arqv+'.csv', "w")
     for c in range(0, len(dados[0])):
@@ -19,6 +20,7 @@ def addRes(resultado, dados, indice, arqv):
         resultado (int): 0 ou 1 representando o valor logico recebido
         dados (lista): lista com os dados
         indice (int): indice a ser atualizado
+        arqv (string): nome do arquivo
     """
     if resultado == 1:
         if dados[-1][indice] == " Reprovado":
