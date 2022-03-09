@@ -1,10 +1,13 @@
 # interface
 
-- Nota: sempre cheque o local que o terminal se encontra.
+## Dependências
 
-## Instalação de Dependências
-É necessário ter o Python 3 instalado para utilizar este programa. Caso não o tenha, [clique aqui](https://www.python.org/downloads/).
-Em um terminal, execute o comando ```python3 -m pip install -r requeriments.txt```
+É necessário ter o [Python 3](https://www.python.org/downloads/) e o [PiP](https://pip.pypa.io/en/stable/installation/) instalado.
 
-## Executando
-Em um terminal, execute ```python3 code/interface.py```.
+## Como usar?
+
+### Via linha de comando
+1. Clicar em __Code__ >> __Download ZIP__
+2. Descompactar o arquivo
+3. Abrir a pasta no Explorador de Arquivos
+4. Abrir o arquivo ```interface.lnk```

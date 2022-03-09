@@ -7,9 +7,7 @@ class Pessoa:
     Classe contendo dados articiais para simular a interface de processo seletivo
     """
     def __init__(self, info_academica = [], info_orion = []):
-        """Construtores da classe
-        Aqui também as strings são devidamente formadas para o padrão correto
-
+        """Construtores da classe e formatação das strings
         Args:
             info_academica (list, opcional): lista com os cursos e os campus onde são ofertados.
             info_orion (list, opcional): lista com as áreas e suas respectivas subáreas.
@@ -21,13 +19,14 @@ class Pessoa:
         self.ra = f"{str(randrange(1, 9999999)):0<7}"
         self.curso = choice(info_academica)
         self.periodo = randrange(1, 10)
-        self.campus = str(self.curso.values())[14:-3].upper()
-        self.curso = str(self.curso.keys())[12:-3].upper()
+        self.campus = str(self.curso.values())[14:-3].capitalize()
+        self.curso = str(self.curso.keys())[12:-3].capitalize()
         self.area = choice(info_orion)
-        self.subarea = str(self.area.values())[14:-3].upper()
-        self.area = str(self.area.keys())[12:-3].upper()
+        self.subarea = str(self.area.values())[14:-3].capitalize()
+        self.area = str(self.area.keys())[12:-3].capitalize()
         self.qualidades = paragraph()
         self.defeitos = paragraph()
+        self.resultado = 'Reprovado'
 
 
     @staticmethod
@@ -141,43 +140,12 @@ class Pessoa:
                 choice(['projetos aviônicos', 'acionamento', 'controle', 'energia', 'telemetria', 'aviônica', 'aviônica para foguetes'])},
             {'mecânica':
                 choice(['projetos mecânicos', 'dinâmica de voo', 'propulsão', 'qualidade', 'estrutura', 'dinâmica de voo', 'simulação'])},
-            {'pesquisa e extensão':
-                choice(['pesquisa e extensão', 'extensão', 'pesquisa científica'])},
+            {'pesquisa e Extensão':
+                choice(['pesquisa e Extensão', 'extensão', 'pesquisa científica'])},
             {'computação':
                 choice(['projetos computacionais', 'inteligência artificial', 'computação'])}]
 
         return [Pessoa(cursos_campus, area_subarea) for i in range(quantidade)]
-
-
-    @staticmethod
-    def organizar(lista):
-        """Organiza os dados dos candidatos de acordo com a área de interesse
-
-        Args:
-            lista (list): dados gerados para os candidatos
-        Returns:
-            [list]: lista com os dados ordenados por área
-        """
-        lista = [str(candidato) for candidato in lista]
-
-        adm = []
-        avi = []
-        mec = []
-        pesq = []
-        comp = []
-        for i in lista:
-            if 'ADMINISTRATIVO' in i:
-                adm.append(i)
-            elif 'AVIÔNICA' in i:
-                avi.append(i)
-            elif ', MECÂNICA,' in i:
-                mec.append(i)
-            elif 'PESQUISA E EXTENSÃO' in i:
-                pesq.append(i)
-            else:
-                comp.append(i)
-
-        return adm + avi + mec + pesq + comp
 
 
     def __str__(self):
@@ -186,7 +154,7 @@ class Pessoa:
         Returns:
             string: dados gerados para os candidatos com a devida formatação
         """
-        return f"{self.nome}, {self.email}, {self.whatsapp}, {self.ra}, {self.curso}, {self.periodo}, {self.campus}, {self.area}, {self.subarea}, {self.qualidades}, {self.defeitos}"
+        return f"{self.nome}, {self.email}, {self.whatsapp}, {self.ra}, {self.curso}, {self.periodo}, {self.campus}, {self.area}, {self.subarea}, {self.qualidades}, {self.defeitos}, {self.resultado}"
 
 
 def gerar_e_salvar(file = 'candidatos', quantidade = randrange(1,100)):
@@ -195,11 +163,11 @@ def gerar_e_salvar(file = 'candidatos', quantidade = randrange(1,100)):
     Args:
         quantidade (int, opcional): quantidade de dados que será gerado e, consequentemente, de linhas na planilha. Padrão é qualquer valor aleatório no intervalo [1, 100].
     """
-    planilha = Pessoa.organizar(Pessoa.organizar(Pessoa.gerar(quantidade)))
-    candidatos = open( file+'.csv', "w")
-    candidatos.write("nome, email, whatsapp, RA, curso, período, campus, area, subarea, qualidades, defeitos\n")
+    planilha = Pessoa.gerar(quantidade)
+    candidatos = open(file+'.csv', "w")
+    candidatos.write("Nome, E-mail, WhatsApp, RA, Curso, Período, Campus, Área, Subarea, Qualidades, Defeitos, Resultado\n")
     for c in range(len(planilha)):
-        candidatos.write(planilha[c])
+        candidatos.write(str(planilha[c]))
         candidatos.write('\n')
     candidatos.close()
 
